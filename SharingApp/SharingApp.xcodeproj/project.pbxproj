@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,6 +16,7 @@
 		821C8EBE2500F3C2001CDDB9 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821C8EBD2500F3C2001CDDB9 /* PostViewController.swift */; };
 		821C8EC0250108E3001CDDB9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821C8EBF250108E3001CDDB9 /* LoginViewController.swift */; };
 		821C8EC2250109D3001CDDB9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821C8EC1250109D3001CDDB9 /* Extensions.swift */; };
+		82EA850E250112F000FD0370 /* SideMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EA850D250112F000FD0370 /* SideMenuTableView.swift */; };
 		C931CD986CB204565B019502 /* Pods_SharingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA27A5298176898E344F7793 /* Pods_SharingApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		821C8EBD2500F3C2001CDDB9 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		821C8EBF250108E3001CDDB9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		821C8EC1250109D3001CDDB9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		82EA850D250112F000FD0370 /* SideMenuTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableView.swift; sourceTree = "<group>"; };
 		BA5004158FC58731AF8BB0A2 /* Pods-SharingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharingApp.release.xcconfig"; path = "Target Support Files/Pods-SharingApp/Pods-SharingApp.release.xcconfig"; sourceTree = "<group>"; };
 		DA27A5298176898E344F7793 /* Pods_SharingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SharingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -107,7 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				821C8EBF250108E3001CDDB9 /* LoginViewController.swift */,
-				821C8EAD2500ED2D001CDDB9 /* HomeViewController.swift */,
+				82EA850F250112F500FD0370 /* Home */,
 				821C8EBD2500F3C2001CDDB9 /* PostViewController.swift */,
 			);
 			path = ViewController;
@@ -123,13 +125,21 @@
 			path = "Story board";
 			sourceTree = "<group>";
 		};
+		82EA850F250112F500FD0370 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				821C8EAD2500ED2D001CDDB9 /* HomeViewController.swift */,
+				82EA850D250112F000FD0370 /* SideMenuTableView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		DA79EDA7DB0E7D81912004DC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				7224AD6B143C472E630E271E /* Pods-SharingApp.debug.xcconfig */,
 				BA5004158FC58731AF8BB0A2 /* Pods-SharingApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -250,6 +260,7 @@
 			files = (
 				821C8EBE2500F3C2001CDDB9 /* PostViewController.swift in Sources */,
 				821C8EC2250109D3001CDDB9 /* Extensions.swift in Sources */,
+				82EA850E250112F000FD0370 /* SideMenuTableView.swift in Sources */,
 				821C8EAE2500ED2D001CDDB9 /* HomeViewController.swift in Sources */,
 				821C8EAA2500ED2D001CDDB9 /* AppDelegate.swift in Sources */,
 				821C8EC0250108E3001CDDB9 /* LoginViewController.swift in Sources */,

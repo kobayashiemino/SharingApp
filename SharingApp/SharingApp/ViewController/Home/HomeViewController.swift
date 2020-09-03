@@ -11,8 +11,13 @@ import SideMenu
 
 class HomeViewController: UIViewController {
     
-    private let sideMenu = SideMenuNavigationController(rootViewController: UIViewController())
-
+    private let sideMenu = SideMenuNavigationController(rootViewController: SideMenuTableView(with: ["リンゴ",
+                                                                                                     "ゴリラ",
+                                                                                                     "ラッパ",
+                                                                                                     "パンダ",
+                                                                                                     "ダンゴ",
+                                                                                                     "ゴジラ"]))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .red
