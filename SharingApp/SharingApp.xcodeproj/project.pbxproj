@@ -17,7 +17,9 @@
 		821C8EC0250108E3001CDDB9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821C8EBF250108E3001CDDB9 /* LoginViewController.swift */; };
 		821C8EC2250109D3001CDDB9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821C8EC1250109D3001CDDB9 /* Extensions.swift */; };
 		82EA850E250112F000FD0370 /* SideMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EA850D250112F000FD0370 /* SideMenuTableView.swift */; };
-		82EA85112501E4C200FD0370 /* SideMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EA85102501E4C200FD0370 /* SideMenuTableViewCell.swift */; };
+		82EA85112501E4C200FD0370 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EA85102501E4C200FD0370 /* HomeCell.swift */; };
+		82EA851325021A9200FD0370 /* HomeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EA851225021A9200FD0370 /* HomeHeader.swift */; };
+		82EA85172502384A00FD0370 /* SideMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EA85162502384A00FD0370 /* SideMenuCell.swift */; };
 		C931CD986CB204565B019502 /* Pods_SharingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA27A5298176898E344F7793 /* Pods_SharingApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +37,9 @@
 		821C8EBF250108E3001CDDB9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		821C8EC1250109D3001CDDB9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		82EA850D250112F000FD0370 /* SideMenuTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableView.swift; sourceTree = "<group>"; };
-		82EA85102501E4C200FD0370 /* SideMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableViewCell.swift; sourceTree = "<group>"; };
+		82EA85102501E4C200FD0370 /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
+		82EA851225021A9200FD0370 /* HomeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeader.swift; sourceTree = "<group>"; };
+		82EA85162502384A00FD0370 /* SideMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuCell.swift; sourceTree = "<group>"; };
 		BA5004158FC58731AF8BB0A2 /* Pods-SharingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SharingApp.release.xcconfig"; path = "Target Support Files/Pods-SharingApp/Pods-SharingApp.release.xcconfig"; sourceTree = "<group>"; };
 		DA27A5298176898E344F7793 /* Pods_SharingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SharingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -131,10 +135,20 @@
 			isa = PBXGroup;
 			children = (
 				821C8EAD2500ED2D001CDDB9 /* HomeViewController.swift */,
-				82EA850D250112F000FD0370 /* SideMenuTableView.swift */,
-				82EA85102501E4C200FD0370 /* SideMenuTableViewCell.swift */,
+				82EA851225021A9200FD0370 /* HomeHeader.swift */,
+				82EA85102501E4C200FD0370 /* HomeCell.swift */,
+				82EA85152502381A00FD0370 /* Side Menu */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		82EA85152502381A00FD0370 /* Side Menu */ = {
+			isa = PBXGroup;
+			children = (
+				82EA850D250112F000FD0370 /* SideMenuTableView.swift */,
+				82EA85162502384A00FD0370 /* SideMenuCell.swift */,
+			);
+			path = "Side Menu";
 			sourceTree = "<group>";
 		};
 		DA79EDA7DB0E7D81912004DC /* Pods */ = {
@@ -261,10 +275,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82EA851325021A9200FD0370 /* HomeHeader.swift in Sources */,
+				82EA85172502384A00FD0370 /* SideMenuCell.swift in Sources */,
 				821C8EBE2500F3C2001CDDB9 /* PostViewController.swift in Sources */,
 				821C8EC2250109D3001CDDB9 /* Extensions.swift in Sources */,
 				82EA850E250112F000FD0370 /* SideMenuTableView.swift in Sources */,
-				82EA85112501E4C200FD0370 /* SideMenuTableViewCell.swift in Sources */,
+				82EA85112501E4C200FD0370 /* HomeCell.swift in Sources */,
 				821C8EAE2500ED2D001CDDB9 /* HomeViewController.swift in Sources */,
 				821C8EAA2500ED2D001CDDB9 /* AppDelegate.swift in Sources */,
 				821C8EC0250108E3001CDDB9 /* LoginViewController.swift in Sources */,

@@ -12,7 +12,7 @@ import SideMenu
 class HomeViewController: UIViewController {
     
     private var sideMenu: SideMenuNavigationController?
-    private let sideMenuTableView = SideMenuTableView(with: SideMenuItems.allCases)
+    private var sideMenuTableView = SideMenuTableView(with: ["+"])
     private var collectionView: UICollectionView?
     
     override func viewDidLoad() {
@@ -26,7 +26,11 @@ class HomeViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: 3)
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView?.backgroundColor = .white
-        collectionView?.register(SideMenuTableViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView?.register(HomeCell.self,
+                                 forCellWithReuseIdentifier: HomeCell.identifier)
+        collectionView?.register(HomeHeader.self,
+                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                 withReuseIdentifier: HomeHeader.identifier)
         collectionView?.delegate = self
         collectionView?.dataSource = self
         
@@ -69,33 +73,38 @@ class HomeViewController: UIViewController {
 
 // MARK: -sideMenuViewDelegate
 extension HomeViewController: SideMenuTableViewDelegate {
-    func didSelectMenuItem(menuItem: SideMenuItems) {
+    func didSelectMenuItem(menuItem: String) {
         
         sideMenu?.dismiss(animated: true, completion: nil)
-        title = menuItem.rawValue
+        title = menuItem
         
         DispatchQueue.main.async {
-            switch menuItem {
-            case .apple:
-                self.collectionView?.reloadData()
-            case .peach:
-                self.collectionView?.reloadData()
-            case .grape:
-                self.collectionView?.reloadData()
-            }
+            self.collectionView?.reloadData()
         }
     }
 }
 
 // MARK: -UICollectionViewDelegate, UICollectionViewDatasource
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 30
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SideMenuTableViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCell.identifier, for: indexPath) as! HomeCell
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                     withReuseIdentifier: HomeHeader.identifier,
+                                                                     for: indexPath) as! HomeHeader
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.width, height: 70)
     }
 }
