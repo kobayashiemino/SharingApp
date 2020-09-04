@@ -9,16 +9,22 @@
 import UIKit
 
 protocol SideMenuTableViewDelegate {
-    func didSelectMenuItem(named: String)
+    func didSelectMenuItem(menuItem: SideMenuItems)
+}
+
+enum SideMenuItems: String, CaseIterable {
+    case apple = "apple"
+    case peach = "peach"
+    case grape = "grape"
 }
 
 class SideMenuTableView: UITableViewController {
     
-    private let menuItems: [String]
+    private let menuItems: [SideMenuItems]
     private let cellId = "cellId"
     public var delegate: SideMenuTableViewDelegate?
 
-    init(with menuItems: [String]) {
+    init(with menuItems: [SideMenuItems]) {
         self.menuItems = menuItems
         super.init(nibName: nil, bundle: nil)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
@@ -36,7 +42,7 @@ class SideMenuTableView: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        cell.textLabel?.text = menuItems[indexPath.row]
+        cell.textLabel?.text = menuItems[indexPath.row].rawValue
         return cell
     }
     
@@ -44,6 +50,6 @@ class SideMenuTableView: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let selectedItem = menuItems[indexPath.row]
-        delegate?.didSelectMenuItem(named: selectedItem)
+        delegate?.didSelectMenuItem(menuItem: selectedItem)
     }
 }

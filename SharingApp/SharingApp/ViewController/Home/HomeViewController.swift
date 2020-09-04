@@ -12,12 +12,7 @@ import SideMenu
 class HomeViewController: UIViewController {
     
     private var sideMenu: SideMenuNavigationController?
-    private let sideMenuTableView = SideMenuTableView(with: ["リンゴ",
-                                                             "ゴリラ",
-                                                             "ラッパ",
-                                                             "パンダ",
-                                                             "ダンゴ",
-                                                             "ゴジラ"])
+    private let sideMenuTableView = SideMenuTableView(with: SideMenuItems.allCases)
     private var collectionView: UICollectionView?
     
     override func viewDidLoad() {
@@ -66,13 +61,28 @@ class HomeViewController: UIViewController {
             present(sideMenu, animated: true)
         }
     }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 }
 
 // MARK: -sideMenuViewDelegate
 extension HomeViewController: SideMenuTableViewDelegate {
-    func didSelectMenuItem(named: String) {
+    func didSelectMenuItem(menuItem: SideMenuItems) {
+        
+        sideMenu?.dismiss(animated: true, completion: nil)
+        title = menuItem.rawValue
+        
         DispatchQueue.main.async {
-            self.collectionView?.reloadData()
+            switch menuItem {
+            case .apple:
+                self.collectionView?.reloadData()
+            case .peach:
+                self.collectionView?.reloadData()
+            case .grape:
+                self.collectionView?.reloadData()
+            }
         }
     }
 }
