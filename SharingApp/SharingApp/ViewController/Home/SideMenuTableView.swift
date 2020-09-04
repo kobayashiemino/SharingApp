@@ -8,10 +8,15 @@
 
 import UIKit
 
+protocol SideMenuTableViewDelegate {
+    func didSelectMenuItem(named: String)
+}
+
 class SideMenuTableView: UITableViewController {
     
     private let menuItems: [String]
     private let cellId = "cellId"
+    public var delegate: SideMenuTableViewDelegate?
 
     init(with menuItems: [String]) {
         self.menuItems = menuItems
@@ -37,5 +42,8 @@ class SideMenuTableView: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let selectedItem = menuItems[indexPath.row]
+        delegate?.didSelectMenuItem(named: selectedItem)
     }
 }
