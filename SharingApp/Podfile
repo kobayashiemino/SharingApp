@@ -7,5 +7,6 @@ target 'SharingApp' do
 
   # Pods for SharingApp
 pod 'SideMenu'
+pod 'ViewAnimator'
 
 end

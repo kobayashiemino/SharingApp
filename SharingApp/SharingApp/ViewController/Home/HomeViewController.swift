@@ -8,12 +8,25 @@
 
 import UIKit
 import SideMenu
+import ViewAnimator
 
 class HomeViewController: UIViewController {
     
     private var sideMenu: SideMenuNavigationController?
     private var sideMenuTableView = SideMenuTableView(with: ["+"])
     private var collectionView: UICollectionView?
+    private let menuButtons = MenuButtuns()
+    
+    private let menuButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .systemGray2
+        button.clipsToBounds = true
+        button.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(didTapBaseButton), for: .touchUpInside)
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.tintColor = .systemPink
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +53,16 @@ class HomeViewController: UIViewController {
         
         setupNavBarItem()
         setupSideMenu()
+        
+        view.addSubview(menuButton)
+        view.addSubview(menuButtons)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        menuButtons.frame = CGRect(x: view.width - 70, y: view.height - 450, width: 60, height: 360)
+        menuButton.frame = CGRect(x: view.width - 70, y: view.height - 70, width: 60, height: 60)
+        menuButton.layer.cornerRadius = menuButton.width / 2
     }
     
     private func setupSideMenu() {
@@ -64,6 +87,15 @@ class HomeViewController: UIViewController {
         if let sideMenu = self.sideMenu {
             present(sideMenu, animated: true)
         }
+    }
+    
+    @objc private func didTapBaseButton() {
+        menuButtons.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+        menuButtons.collectionView?.isHidden = false
+        let zoomAnimation = AnimationType.zoom(scale: 0.2)
+        let roteteAnimation = AnimationType.rotate(angle: CGFloat.pi / 6)
+        guard let cells = menuButtons.collectionView?.visibleCells else { return }
+        UIView.animate(views: cells, animations: [zoomAnimation, roteteAnimation])
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -108,3 +140,5 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return CGSize(width: view.width, height: 70)
     }
 }
+
+

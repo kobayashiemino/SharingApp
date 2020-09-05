@@ -1,16 +1,20 @@
 PODS:
   - SideMenu (6.4.9)
+  - ViewAnimator (3.0.1)
 
 DEPENDENCIES:
   - SideMenu
+  - ViewAnimator
 
 SPEC REPOS:
   trunk:
     - SideMenu
+    - ViewAnimator
 
 SPEC CHECKSUMS:
   SideMenu: 8ef57a3cfc024a2d3fc1c036c7fe98537baec9e0
+  ViewAnimator: dd18d2f5c1e472f78d0065ff92750fe56cbd2f39
 
-PODFILE CHECKSUM: 57147dc3f9e221545dedf6d79bd2a05a8b4e9a72
+PODFILE CHECKSUM: 014688e0330cad2db030a6f1eaab122945e4072d
 
 COCOAPODS: 1.9.3

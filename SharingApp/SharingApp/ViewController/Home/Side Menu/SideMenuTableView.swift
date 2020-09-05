@@ -48,7 +48,7 @@ class SideMenuTableView: UITableViewController {
         return cell
     }
     
-    @objc private func didTapCancelButton(_ sender: customButton) {
+    @objc private func didTapCancelButton(_ sender: CustomButton) {
         
         guard let indexPath = sender.indexPath else { return }
         tableView.beginUpdates()

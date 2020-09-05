@@ -12,8 +12,8 @@ class SideMenuCell: UITableViewCell {
     
     static let identifier = "SideMenuCell"
     
-    public let cancelButton: customButton = {
-       let button = customButton()
+    public let cancelButton: CustomButton = {
+       let button = CustomButton()
         button.setImage(UIImage(systemName: "multiply.circle"), for: .normal)
         button.tintColor = .darkGray
         return button
@@ -47,6 +47,6 @@ class SideMenuCell: UITableViewCell {
     }
 }
 
-class customButton: UIButton {
+class CustomButton: UIButton {
     public var indexPath: IndexPath?
 }
