@@ -9,9 +9,15 @@
 import UIKit
 import ViewAnimator
 
+protocol MenuButtunsDelegate: AnyObject {
+    func didTapMyPageButton()
+}
+
 class MenuButtuns: UIView {
     
     public var collectionView: UICollectionView?
+    
+    public var delegate: MenuButtunsDelegate?
     
     private let buttonImages: [String] = ["house.fill", "bag.fill","person.fill", "bell.fill"]
     
@@ -52,7 +58,13 @@ extension MenuButtuns: UICollectionViewDelegate, UICollectionViewDelegateFlowLay
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuButtunCell.identifier, for: indexPath) as! MenuButtunCell
         let image = buttonImages[indexPath.row]
-        cell.button.setImage(UIImage(systemName: image), for: .normal)
+        cell.menuImage.image = UIImage(systemName: image)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row == 2 {
+            delegate?.didTapMyPageButton()
+        }
     }
 }

@@ -18,6 +18,11 @@
 		821C8EC2250109D3001CDDB9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821C8EC1250109D3001CDDB9 /* Extensions.swift */; };
 		8232EB1F25031554007511FC /* MenuButtuns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232EB1E25031554007511FC /* MenuButtuns.swift */; };
 		8232EB212503157C007511FC /* MenuButtunCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232EB202503157C007511FC /* MenuButtunCell.swift */; };
+		82BA516825034225000859D5 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA516725034225000859D5 /* MyPageViewController.swift */; };
+		82BA516A250344A0000859D5 /* MyPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA5169250344A0000859D5 /* MyPageCollectionViewCell.swift */; };
+		82BA516D25034525000859D5 /* MypageCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA516C25034525000859D5 /* MypageCollectionReusableView.swift */; };
+		82BA516F25034553000859D5 /* MyPageCategoryReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA516E25034553000859D5 /* MyPageCategoryReusableView.swift */; };
+		82BA5171250347B4000859D5 /* MyPageCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA5170250347B4000859D5 /* MyPageCategoryCollectionViewCell.swift */; };
 		82EA850E250112F000FD0370 /* SideMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EA850D250112F000FD0370 /* SideMenuTableView.swift */; };
 		82EA85112501E4C200FD0370 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EA85102501E4C200FD0370 /* HomeCell.swift */; };
 		82EA851325021A9200FD0370 /* HomeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EA851225021A9200FD0370 /* HomeHeader.swift */; };
@@ -40,6 +45,11 @@
 		821C8EC1250109D3001CDDB9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		8232EB1E25031554007511FC /* MenuButtuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtuns.swift; sourceTree = "<group>"; };
 		8232EB202503157C007511FC /* MenuButtunCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtunCell.swift; sourceTree = "<group>"; };
+		82BA516725034225000859D5 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		82BA5169250344A0000859D5 /* MyPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCollectionViewCell.swift; sourceTree = "<group>"; };
+		82BA516C25034525000859D5 /* MypageCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageCollectionReusableView.swift; sourceTree = "<group>"; };
+		82BA516E25034553000859D5 /* MyPageCategoryReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCategoryReusableView.swift; sourceTree = "<group>"; };
+		82BA5170250347B4000859D5 /* MyPageCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		82EA850D250112F000FD0370 /* SideMenuTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableView.swift; sourceTree = "<group>"; };
 		82EA85102501E4C200FD0370 /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
 		82EA851225021A9200FD0370 /* HomeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeader.swift; sourceTree = "<group>"; };
@@ -118,9 +128,9 @@
 		821C8EC525010BA7001CDDB9 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				821C8EBF250108E3001CDDB9 /* LoginViewController.swift */,
+				82BA5165250341E5000859D5 /* Login */,
+				82BA5164250341DA000859D5 /* My Page */,
 				82EA850F250112F500FD0370 /* Home */,
-				821C8EBD2500F3C2001CDDB9 /* PostViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -142,6 +152,43 @@
 				8232EB202503157C007511FC /* MenuButtunCell.swift */,
 			);
 			path = MenuButton;
+			sourceTree = "<group>";
+		};
+		82BA5164250341DA000859D5 /* My Page */ = {
+			isa = PBXGroup;
+			children = (
+				82BA516725034225000859D5 /* MyPageViewController.swift */,
+				82BA5169250344A0000859D5 /* MyPageCollectionViewCell.swift */,
+				82BA5172250347CA000859D5 /* Header */,
+				82BA5166250341FD000859D5 /* Post */,
+			);
+			path = "My Page";
+			sourceTree = "<group>";
+		};
+		82BA5165250341E5000859D5 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				821C8EBF250108E3001CDDB9 /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		82BA5166250341FD000859D5 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				821C8EBD2500F3C2001CDDB9 /* PostViewController.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		82BA5172250347CA000859D5 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				82BA516C25034525000859D5 /* MypageCollectionReusableView.swift */,
+				82BA516E25034553000859D5 /* MyPageCategoryReusableView.swift */,
+				82BA5170250347B4000859D5 /* MyPageCategoryCollectionViewCell.swift */,
+			);
+			path = Header;
 			sourceTree = "<group>";
 		};
 		82EA850F250112F500FD0370 /* Home */ = {
@@ -290,12 +337,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				82EA851325021A9200FD0370 /* HomeHeader.swift in Sources */,
+				82BA5171250347B4000859D5 /* MyPageCategoryCollectionViewCell.swift in Sources */,
 				82EA85172502384A00FD0370 /* SideMenuCell.swift in Sources */,
 				821C8EBE2500F3C2001CDDB9 /* PostViewController.swift in Sources */,
+				82BA516A250344A0000859D5 /* MyPageCollectionViewCell.swift in Sources */,
+				82BA516F25034553000859D5 /* MyPageCategoryReusableView.swift in Sources */,
 				821C8EC2250109D3001CDDB9 /* Extensions.swift in Sources */,
 				82EA850E250112F000FD0370 /* SideMenuTableView.swift in Sources */,
 				82EA85112501E4C200FD0370 /* HomeCell.swift in Sources */,
 				821C8EAE2500ED2D001CDDB9 /* HomeViewController.swift in Sources */,
+				82BA516825034225000859D5 /* MyPageViewController.swift in Sources */,
+				82BA516D25034525000859D5 /* MypageCollectionReusableView.swift in Sources */,
 				8232EB1F25031554007511FC /* MenuButtuns.swift in Sources */,
 				821C8EAA2500ED2D001CDDB9 /* AppDelegate.swift in Sources */,
 				821C8EC0250108E3001CDDB9 /* LoginViewController.swift in Sources */,

@@ -56,6 +56,7 @@ class HomeViewController: UIViewController {
         
         view.addSubview(menuButton)
         view.addSubview(menuButtons)
+        menuButtons.delegate = self
     }
     
     override func viewDidLayoutSubviews() {
@@ -100,6 +101,16 @@ class HomeViewController: UIViewController {
     
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+}
+
+// MARK: -MenuButtonsDelegate
+extension HomeViewController: MenuButtunsDelegate {
+    func didTapMyPageButton() {
+        let vc = MyPageViewController()
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true, completion: nil)
     }
 }
 

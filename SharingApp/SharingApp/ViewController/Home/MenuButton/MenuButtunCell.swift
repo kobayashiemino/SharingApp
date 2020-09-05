@@ -12,20 +12,19 @@ class MenuButtunCell: UICollectionViewCell {
     
     static let identifier = "MenuButtunCell"
     
-    public var button: UIButton = {
-        let button = UIButton()
-        button.contentMode = .scaleAspectFit
-        button.clipsToBounds = true
-        button.backgroundColor = .systemGray2
-        button.tintColor = .white
-        button.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-        print("CGFloat.pi:\(CGFloat.pi)")
-        return button
+    public var menuImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .systemGray2
+        imageView.tintColor = .white
+        imageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+        return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(button)
+        contentView.addSubview(menuImage)
     }
     
     required init?(coder: NSCoder) {
@@ -34,7 +33,7 @@ class MenuButtunCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        button.frame = bounds
-        button.layer.cornerRadius = button.width / 2
+        menuImage.frame = bounds
+        menuImage.layer.cornerRadius = menuImage.width / 2
     }
 }
