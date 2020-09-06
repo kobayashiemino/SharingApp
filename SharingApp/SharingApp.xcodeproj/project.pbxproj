@@ -18,6 +18,7 @@
 		821C8EC2250109D3001CDDB9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821C8EC1250109D3001CDDB9 /* Extensions.swift */; };
 		8232EB1F25031554007511FC /* MenuButtuns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232EB1E25031554007511FC /* MenuButtuns.swift */; };
 		8232EB212503157C007511FC /* MenuButtunCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232EB202503157C007511FC /* MenuButtunCell.swift */; };
+		82820D1325047EE3008EA57C /* SelectRankPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82820D1225047EE3008EA57C /* SelectRankPopup.swift */; };
 		82BA516825034225000859D5 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA516725034225000859D5 /* MyPageViewController.swift */; };
 		82BA516A250344A0000859D5 /* MyPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA5169250344A0000859D5 /* MyPageCollectionViewCell.swift */; };
 		82BA516D25034525000859D5 /* MypageCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA516C25034525000859D5 /* MypageCollectionReusableView.swift */; };
@@ -45,6 +46,7 @@
 		821C8EC1250109D3001CDDB9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		8232EB1E25031554007511FC /* MenuButtuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtuns.swift; sourceTree = "<group>"; };
 		8232EB202503157C007511FC /* MenuButtunCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtunCell.swift; sourceTree = "<group>"; };
+		82820D1225047EE3008EA57C /* SelectRankPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRankPopup.swift; sourceTree = "<group>"; };
 		82BA516725034225000859D5 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		82BA5169250344A0000859D5 /* MyPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCollectionViewCell.swift; sourceTree = "<group>"; };
 		82BA516C25034525000859D5 /* MypageCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				821C8EBD2500F3C2001CDDB9 /* PostViewController.swift */,
+				82820D1225047EE3008EA57C /* SelectRankPopup.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				82EA850E250112F000FD0370 /* SideMenuTableView.swift in Sources */,
 				82EA85112501E4C200FD0370 /* HomeCell.swift in Sources */,
 				821C8EAE2500ED2D001CDDB9 /* HomeViewController.swift in Sources */,
+				82820D1325047EE3008EA57C /* SelectRankPopup.swift in Sources */,
 				82BA516825034225000859D5 /* MyPageViewController.swift in Sources */,
 				82BA516D25034525000859D5 /* MypageCollectionReusableView.swift in Sources */,
 				8232EB1F25031554007511FC /* MenuButtuns.swift in Sources */,

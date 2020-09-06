@@ -8,5 +8,6 @@ target 'SharingApp' do
   # Pods for SharingApp
 pod 'SideMenu'
 pod 'ViewAnimator'
+pod 'SkyFloatingLabelTextField', '~> 3.0'
 
 end
