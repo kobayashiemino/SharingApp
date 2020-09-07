@@ -11,6 +11,8 @@ import ViewAnimator
 
 protocol MenuButtunsDelegate: AnyObject {
     func didTapMyPageButton()
+    func didTapInfoButton()
+    func didTapSearchButton()
 }
 
 class MenuButtuns: UIView {
@@ -63,8 +65,15 @@ extension MenuButtuns: UICollectionViewDelegate, UICollectionViewDelegateFlowLay
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 2 {
+        
+        if indexPath.row == 0 {
             delegate?.didTapMyPageButton()
+        } else if indexPath.row == 1 {
+            delegate?.didTapSearchButton()
+        } else if indexPath.row == 2 {
+            delegate?.didTapMyPageButton()
+        } else if indexPath.row == 3 {
+            delegate?.didTapInfoButton()
         }
     }
 }

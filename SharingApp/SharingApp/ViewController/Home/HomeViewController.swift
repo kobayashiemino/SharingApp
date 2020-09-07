@@ -106,8 +106,22 @@ class HomeViewController: UIViewController {
 
 // MARK: -MenuButtonsDelegate
 extension HomeViewController: MenuButtunsDelegate {
+    func didTapInfoButton() {
+        let vc = ProductDetailViewController()
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true, completion: nil)
+    }
+    
     func didTapMyPageButton() {
         let vc = MyPageViewController()
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true, completion: nil)
+    }
+    
+    func didTapSearchButton() {
+        let vc = SearchViewController()
         let navVC = UINavigationController(rootViewController: vc)
         navVC.modalPresentationStyle = .fullScreen
         present(navVC, animated: true, completion: nil)
