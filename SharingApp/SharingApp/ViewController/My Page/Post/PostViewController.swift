@@ -10,7 +10,6 @@ import UIKit
 import SkyFloatingLabelTextField
 import SafariServices
 import ViewAnimator
-import BLTNBoard
 
 class PostViewController: UIViewController {
 

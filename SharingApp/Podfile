@@ -9,6 +9,5 @@ target 'SharingApp' do
 pod 'SideMenu'
 pod 'ViewAnimator'
 pod 'SkyFloatingLabelTextField', '~> 3.0'
-pod 'BulletinBoard'
 
 end
