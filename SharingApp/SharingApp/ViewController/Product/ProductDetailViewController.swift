@@ -7,8 +7,6 @@
 //
 
 import UIKit
-
-import UIKit
 import SkyFloatingLabelTextField
 import SafariServices
 import ViewAnimator
@@ -18,7 +16,15 @@ class ProductDetailViewController: UIViewController {
     private let itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .systemPink
+        imageView.isUserInteractionEnabled = true
         return imageView
+    }()
+    
+    private let backTopreviousViewButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        button.tintColor = .systemGray
+        return button
     }()
     
     private let SDGsLabel: UILabel = {
@@ -88,6 +94,7 @@ class ProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
         addSubViews()
@@ -95,6 +102,7 @@ class ProductDetailViewController: UIViewController {
     
     private func addSubViews() {
         view.addSubview(itemImageView)
+        itemImageView.addSubview(backTopreviousViewButton)
         itemImageView.addSubview(SDGsLabel)
         view.addSubview(rankImageView)
         view.addSubview(titleLabel)
@@ -102,12 +110,15 @@ class ProductDetailViewController: UIViewController {
         view.addSubview(messageTextLabel)
         view.addSubview(SDGsButton)
         view.addSubview(communityButton)
+        
+        backTopreviousViewButton.addTarget(self, action: #selector(didTapBackTopreviousViewButton), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
         itemImageView.frame = CGRect(x: 0, y: 0, width: view.width, height: view.width)
-        SDGsLabel.frame = CGRect(x: 10, y: 10, width: 50, height: 50)
+        SDGsLabel.frame = CGRect(x: view.width - 60, y: 10, width: 50, height: 50)
         SDGsLabel.layer.cornerRadius = SDGsLabel.width / 2
+        backTopreviousViewButton.frame = CGRect(x: 10, y: 10, width: 50, height: 50)
         titleLabel.frame = CGRect(x: 10,
                                   y: itemImageView.bottom + 10,
                                   width: view.width - 90,
@@ -132,6 +143,11 @@ class ProductDetailViewController: UIViewController {
                                       y: websiteButton.bottom + 10,
                                       width: (view.width / 2) - 15,
                                       height: 52)
+    }
+    
+    @objc private func didTapBackTopreviousViewButton() {
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.popViewController(animated: true)
     }
     
     override var prefersStatusBarHidden: Bool {
