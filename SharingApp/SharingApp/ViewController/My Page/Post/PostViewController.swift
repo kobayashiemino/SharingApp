@@ -10,12 +10,14 @@ import UIKit
 import SkyFloatingLabelTextField
 import SafariServices
 import ViewAnimator
+import BLTNBoard
 
 class PostViewController: UIViewController {
 
     private let itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .systemPink
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -172,7 +174,31 @@ class PostViewController: UIViewController {
     }
     
     @objc private func didTapAddImageButton() {
-        
+        let alert = UIAlertController(title: "Image", message: "share your image", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "take photo", style: .default, handler: { (_) in
+            self.takePhoto()
+        }))
+        alert.addAction(UIAlertAction(title: "select from Album", style: .default, handler: { (_) in
+            self.selectFromAlbum()
+        }))
+        alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func takePhoto() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.delegate = self
+        vc.allowsEditing = true
+        present(vc, animated: true, completion: nil)
+    }
+    
+    private func selectFromAlbum() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary
+        vc.delegate = self
+        vc.allowsEditing = true
+        present(vc, animated: true, completion: nil)
     }
     
     @objc internal func didTapRankButton() {
@@ -219,5 +245,20 @@ extension PostViewController: UITextFieldDelegate {
             
         }
         return true
+    }
+}
+
+extension PostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        addImageButton.removeFromSuperview()
+        
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        itemImageView.image = image
+        picker.dismiss(animated: true, completion: nil)
     }
 }

@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-SharingApp/Pods-SharingApp-frameworks.sh
+${BUILT_PRODUCTS_DIR}/BulletinBoard/BLTNBoard.framework
 ${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework
 ${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework
 ${BUILT_PRODUCTS_DIR}/ViewAnimator/ViewAnimator.framework
