@@ -9,4 +9,11 @@ target 'SharingApp' do
 pod 'SideMenu'
 pod 'ViewAnimator'
 pod 'SkyFloatingLabelTextField', '~> 3.0'
+
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
+pod 'Firebase/Database'
+pod 'Firebase/Analytics'
+pod 'Firebase/Crashlytics'
+
 end

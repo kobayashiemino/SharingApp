@@ -22,6 +22,7 @@
 		82820D192504B4D5008EA57C /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82820D182504B4D5008EA57C /* ProductDetailViewController.swift */; };
 		82820D1C2504D8F8008EA57C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82820D1B2504D8F8008EA57C /* SearchViewController.swift */; };
 		82820D1F2505F2E4008EA57C /* SearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82820D1E2505F2E4008EA57C /* SearchViewCell.swift */; };
+		829E7A1325072648000DBFED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 829E7A1225072648000DBFED /* GoogleService-Info.plist */; };
 		82BA516825034225000859D5 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA516725034225000859D5 /* MyPageViewController.swift */; };
 		82BA516A250344A0000859D5 /* MyPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA5169250344A0000859D5 /* MyPageCollectionViewCell.swift */; };
 		82BA516D25034525000859D5 /* MypageCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA516C25034525000859D5 /* MypageCollectionReusableView.swift */; };
@@ -53,6 +54,7 @@
 		82820D182504B4D5008EA57C /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		82820D1B2504D8F8008EA57C /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		82820D1E2505F2E4008EA57C /* SearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewCell.swift; sourceTree = "<group>"; };
+		829E7A1225072648000DBFED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		82BA516725034225000859D5 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		82BA5169250344A0000859D5 /* MyPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCollectionViewCell.swift; sourceTree = "<group>"; };
 		82BA516C25034525000859D5 /* MypageCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 		821C8EC325010B97001CDDB9 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				829E7A1225072648000DBFED /* GoogleService-Info.plist */,
 				821C8EAB2500ED2D001CDDB9 /* SceneDelegate.swift */,
 				821C8EA92500ED2D001CDDB9 /* AppDelegate.swift */,
 				821C8EC1250109D3001CDDB9 /* Extensions.swift */,
@@ -318,6 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				821C8EB62500ED2E001CDDB9 /* LaunchScreen.storyboard in Resources */,
+				829E7A1325072648000DBFED /* GoogleService-Info.plist in Resources */,
 				821C8EB32500ED2E001CDDB9 /* Assets.xcassets in Resources */,
 				821C8EB12500ED2D001CDDB9 /* Main.storyboard in Resources */,
 			);
