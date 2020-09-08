@@ -9,6 +9,7 @@
 import UIKit
 import SideMenu
 import ViewAnimator
+import Firebase
 
 class HomeViewController: UIViewController {
     
@@ -57,6 +58,20 @@ class HomeViewController: UIViewController {
         view.addSubview(menuButton)
         view.addSubview(menuButtons)
         menuButtons.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.navigationBar.isHidden = false
+        handleNotAuthenticated()
+    }
+    
+    private func handleNotAuthenticated() {
+        if Auth.auth().currentUser == nil {
+            let vc = LoginViewController()
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: false, completion: nil)
+        }
     }
     
     override func viewDidLayoutSubviews() {

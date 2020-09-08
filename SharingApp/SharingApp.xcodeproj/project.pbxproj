@@ -23,6 +23,10 @@
 		82820D1C2504D8F8008EA57C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82820D1B2504D8F8008EA57C /* SearchViewController.swift */; };
 		82820D1F2505F2E4008EA57C /* SearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82820D1E2505F2E4008EA57C /* SearchViewCell.swift */; };
 		829E7A1325072648000DBFED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 829E7A1225072648000DBFED /* GoogleService-Info.plist */; };
+		829E7A1525072A7C000DBFED /* DatabaseManeger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829E7A1425072A7C000DBFED /* DatabaseManeger.swift */; };
+		829E7A1725072B3A000DBFED /* AuthManeger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829E7A1625072B3A000DBFED /* AuthManeger.swift */; };
+		829E7A1925072BDC000DBFED /* StorageManeger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829E7A1825072BDC000DBFED /* StorageManeger.swift */; };
+		829E7A1B2507427B000DBFED /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829E7A1A2507427B000DBFED /* RegisterViewController.swift */; };
 		82BA516825034225000859D5 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA516725034225000859D5 /* MyPageViewController.swift */; };
 		82BA516A250344A0000859D5 /* MyPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA5169250344A0000859D5 /* MyPageCollectionViewCell.swift */; };
 		82BA516D25034525000859D5 /* MypageCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA516C25034525000859D5 /* MypageCollectionReusableView.swift */; };
@@ -55,6 +59,10 @@
 		82820D1B2504D8F8008EA57C /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		82820D1E2505F2E4008EA57C /* SearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewCell.swift; sourceTree = "<group>"; };
 		829E7A1225072648000DBFED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		829E7A1425072A7C000DBFED /* DatabaseManeger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManeger.swift; sourceTree = "<group>"; };
+		829E7A1625072B3A000DBFED /* AuthManeger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManeger.swift; sourceTree = "<group>"; };
+		829E7A1825072BDC000DBFED /* StorageManeger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManeger.swift; sourceTree = "<group>"; };
+		829E7A1A2507427B000DBFED /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		82BA516725034225000859D5 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		82BA5169250344A0000859D5 /* MyPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCollectionViewCell.swift; sourceTree = "<group>"; };
 		82BA516C25034525000859D5 /* MypageCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -124,6 +132,9 @@
 				821C8EAB2500ED2D001CDDB9 /* SceneDelegate.swift */,
 				821C8EA92500ED2D001CDDB9 /* AppDelegate.swift */,
 				821C8EC1250109D3001CDDB9 /* Extensions.swift */,
+				829E7A1425072A7C000DBFED /* DatabaseManeger.swift */,
+				829E7A1625072B3A000DBFED /* AuthManeger.swift */,
+				829E7A1825072BDC000DBFED /* StorageManeger.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -207,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				821C8EBF250108E3001CDDB9 /* LoginViewController.swift */,
+				829E7A1A2507427B000DBFED /* RegisterViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -387,14 +399,18 @@
 				82EA85112501E4C200FD0370 /* HomeCell.swift in Sources */,
 				821C8EAE2500ED2D001CDDB9 /* HomeViewController.swift in Sources */,
 				82820D1C2504D8F8008EA57C /* SearchViewController.swift in Sources */,
+				829E7A1925072BDC000DBFED /* StorageManeger.swift in Sources */,
 				82820D1325047EE3008EA57C /* SelectRankPopup.swift in Sources */,
 				82820D1F2505F2E4008EA57C /* SearchViewCell.swift in Sources */,
 				82BA516825034225000859D5 /* MyPageViewController.swift in Sources */,
+				829E7A1525072A7C000DBFED /* DatabaseManeger.swift in Sources */,
+				829E7A1B2507427B000DBFED /* RegisterViewController.swift in Sources */,
 				82BA516D25034525000859D5 /* MypageCollectionReusableView.swift in Sources */,
 				8232EB1F25031554007511FC /* MenuButtuns.swift in Sources */,
 				821C8EAA2500ED2D001CDDB9 /* AppDelegate.swift in Sources */,
 				821C8EC0250108E3001CDDB9 /* LoginViewController.swift in Sources */,
 				82820D192504B4D5008EA57C /* ProductDetailViewController.swift in Sources */,
+				829E7A1725072B3A000DBFED /* AuthManeger.swift in Sources */,
 				8232EB212503157C007511FC /* MenuButtunCell.swift in Sources */,
 				821C8EAC2500ED2D001CDDB9 /* SceneDelegate.swift in Sources */,
 			);
