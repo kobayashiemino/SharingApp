@@ -63,6 +63,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.isHidden = false
+        view.backgroundColor = .white
         handleNotAuthenticated()
     }
     
