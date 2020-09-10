@@ -55,4 +55,15 @@ class AuthManeger {
             print(username)
         }
     }
+    
+    public func logout(completion: (Bool) -> Void) {
+        do {
+            try Auth.auth().signOut()
+            completion(true)
+            return
+        } catch {
+            completion(false)
+            return
+        }
+    }
 }

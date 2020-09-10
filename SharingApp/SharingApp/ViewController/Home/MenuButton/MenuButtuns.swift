@@ -13,6 +13,7 @@ protocol MenuButtunsDelegate: AnyObject {
     func didTapMyPageButton()
     func didTapInfoButton()
     func didTapSearchButton()
+    func didTapNotificationButton()
 }
 
 class MenuButtuns: UIView {
@@ -67,7 +68,7 @@ extension MenuButtuns: UICollectionViewDelegate, UICollectionViewDelegateFlowLay
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
-            delegate?.didTapMyPageButton()
+            delegate?.didTapNotificationButton()
         } else if indexPath.row == 1 {
             delegate?.didTapSearchButton()
         } else if indexPath.row == 2 {

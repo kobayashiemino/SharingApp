@@ -93,6 +93,9 @@ PODS:
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
   - PromisesObjC (1.2.10)
+  - SDWebImage (5.9.0):
+    - SDWebImage/Core (= 5.9.0)
+  - SDWebImage/Core (5.9.0)
   - SideMenu (6.4.9)
   - SkyFloatingLabelTextField (3.8.0)
   - ViewAnimator (3.0.1)
@@ -104,6 +107,7 @@ DEPENDENCIES:
   - Firebase/Crashlytics
   - Firebase/Database
   - Firebase/Storage
+  - SDWebImage
   - SideMenu
   - SkyFloatingLabelTextField (~> 3.0)
   - ViewAnimator
@@ -126,6 +130,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - SDWebImage
     - SideMenu
     - SkyFloatingLabelTextField
     - ViewAnimator
@@ -147,10 +152,11 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
+  SDWebImage: 62ae4a18473520c67b79e9724c31a63599cc9423
   SideMenu: 8ef57a3cfc024a2d3fc1c036c7fe98537baec9e0
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
   ViewAnimator: dd18d2f5c1e472f78d0065ff92750fe56cbd2f39
 
-PODFILE CHECKSUM: 79af46df8ebe9c68719000eab5039ca6d43fd8bf
+PODFILE CHECKSUM: cf429c7ec45978b73850a0b2ccecc8cf3b9b2e96
 
 COCOAPODS: 1.9.3

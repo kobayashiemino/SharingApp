@@ -25,6 +25,13 @@ class MyPageViewController: UIViewController {
         
         navigationController?.isNavigationBarHidden = true
         
+        view.addSubview(postButton)
+        postButton.addTarget(self, action: #selector(didTapPostButton), for: .touchUpInside)
+        
+        createCollectionView()
+    }
+    
+    private func createCollectionView() {
         let layout = UICollectionViewFlowLayout()
         let size: CGFloat = (view.width - 4) / 3
         layout.itemSize = CGSize(width: size, height: size)
@@ -40,9 +47,6 @@ class MyPageViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
-        
-        view.addSubview(postButton)
-        postButton.addTarget(self, action: #selector(didTapPostButton), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -102,9 +106,21 @@ extension MyPageViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         if indexPath.section == 0 {
             let profile = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MyPageProfileReusableView.identifier, for: indexPath) as! MyPageProfileReusableView
+            profile.delegate = self
             return profile
         }
         let category = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MyPageCategoryReusableView.identifier, for: indexPath) as! MyPageCategoryReusableView
         return category
+    }
+}
+
+extension MyPageViewController: MyPageProfileReusableViewDelegate {
+    func didTapFollowButton() {
+        var mockData = [UserRelationship]()
+        for x in 0..<10 {
+            mockData.append(UserRelationship(username: "@Joe", name: "Joe Smith", followType: x % 2 == 0 ? .following : .not_Following))
+        }
+        let vc = ListViewController(data: mockData)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

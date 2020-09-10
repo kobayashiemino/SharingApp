@@ -74,6 +74,8 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .white
 
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
@@ -134,8 +136,9 @@ class LoginViewController: UIViewController {
         
         AuthManeger.shared.loginUser(username: username, email: email, password: password) { [weak self](success) in
             
-            DispatchQueue.main.sync {
-                guard let `self` = self else { return }
+            guard let `self` = self else { return }
+            
+//            DispatchQueue.main.sync {
                 
                 if success {
                     `self`.dismiss(animated: true, completion: nil)
@@ -147,7 +150,7 @@ class LoginViewController: UIViewController {
                                                   style: .cancel, handler: nil))
                     `self`.present(alert, animated: true, completion: nil)
                 }
-            }
+//            }
         }
     }
 }

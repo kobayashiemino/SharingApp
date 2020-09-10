@@ -62,8 +62,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        navigationController?.navigationBar.isHidden = false
-        view.backgroundColor = .white
         handleNotAuthenticated()
     }
     
@@ -91,18 +89,41 @@ class HomeViewController: UIViewController {
     }
     
     private func setupNavBarItem() {
-        let item = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"),
+        let leftButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"),
                                    style: .done,
                                    target: self,
                                    action: #selector(didTapSideMenubutton))
-        navigationItem.leftBarButtonItem = item
+        let rightButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
+                                             style: .done,
+                                             target: self,
+                                             action: #selector(didLogOutbutton))
+        navigationItem.leftBarButtonItem = leftButtonItem
         navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.rightBarButtonItem = rightButtonItem
+        navigationItem.rightBarButtonItem?.tintColor = .black
     }
     
     @objc private func didTapSideMenubutton() {
         
         if let sideMenu = self.sideMenu {
             present(sideMenu, animated: true)
+        }
+    }
+    
+    @objc private func didLogOutbutton() {
+        
+        DispatchQueue.main.async {
+            AuthManeger.shared.logout { [weak self] (success) in
+                
+                guard let `self` = self else { return }
+                
+                if success {
+                    let vc = LoginViewController()
+                    `self`.present(vc, animated: true, completion: nil)
+                } else {
+                    
+                }
+            }
         }
     }
     
@@ -122,6 +143,14 @@ class HomeViewController: UIViewController {
 
 // MARK: -MenuButtonsDelegate
 extension HomeViewController: MenuButtunsDelegate {
+    
+    func didTapNotificationButton() {
+        let vc = NotificationViewController()
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true, completion: nil)
+    }
+    
     func didTapInfoButton() {
         let vc = ProductDetailViewController()
         let navVC = UINavigationController(rootViewController: vc)
