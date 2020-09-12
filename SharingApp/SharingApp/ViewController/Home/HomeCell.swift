@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class HomeCell: UICollectionViewCell {
     
@@ -33,5 +34,10 @@ class HomeCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func configure(post: Post) {
+        let imageUrl = URL(string: post.imageURL)
+        itemView.sd_setImage(with: imageUrl, completed: nil)
     }
 }

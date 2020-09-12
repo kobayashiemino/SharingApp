@@ -13,6 +13,8 @@ import ViewAnimator
 
 class ProductDetailViewController: UIViewController {
     
+    private var model: UserPost?
+    
     private let itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .systemPink
@@ -91,6 +93,15 @@ class ProductDetailViewController: UIViewController {
         button.layer.borderColor = UIColor.systemGray.cgColor
         return button
     }()
+    
+    init(model: UserPost) {
+        self.model = model
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

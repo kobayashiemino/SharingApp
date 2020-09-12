@@ -11,6 +11,7 @@ import UIKit
 class MyPageViewController: UIViewController {
     
     private var collectionView: UICollectionView?
+    private var posts = [Post]()
     
     private let postButton: UIButton = {
         let button = UIButton()
@@ -24,11 +25,15 @@ class MyPageViewController: UIViewController {
         super.viewDidLoad()
         
         navigationController?.isNavigationBarHidden = true
+        createCollectionView()
         
         view.addSubview(postButton)
         postButton.addTarget(self, action: #selector(didTapPostButton), for: .touchUpInside)
-        
-        createCollectionView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchPosts()
     }
     
     private func createCollectionView() {
@@ -60,6 +65,32 @@ class MyPageViewController: UIViewController {
         postButton.layer.cornerRadius = postButton.width / 2
     }
     
+    private func fetchPosts() {
+        
+        self.posts = []
+        
+        DatabaseManeger.shared.getPostData { [weak self] (result) in
+            
+            guard let `self` = self else { return }
+            
+            switch result {
+            case .success(let data):
+                guard let postInfos = data as? [String: Any] else { return }
+                postInfos.forEach { (key, value) in
+                    guard let postInfo = value as? [String: Any] else { return }
+                    let post = Post(dictionary: postInfo)
+                    self.posts.append(post)
+                }
+                self.posts.sort { $0.uploadedDate > $1.uploadedDate }
+                DispatchQueue.main.async {
+                    `self`.collectionView?.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     @objc private func didTapPostButton() {
         let vc = PostViewController()
         let navVC = UINavigationController(rootViewController: vc)
@@ -79,13 +110,14 @@ extension MyPageViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if section == 0 {
             return 0
         } else {
-            return 30
+            return posts.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageCollectionViewCell.identifier, for: indexPath) as! MyPageCollectionViewCell
+        cell.configure(post: posts[indexPath.row])
         return cell
     }
     

@@ -138,7 +138,14 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
 
 extension NotificationViewController: NotificationLikeEventTableViewCellDelegate {
     func didTapRelatedPostButton(model: UserNotification) {
-        print("didTapRelatedPostButton")
+        switch model.type {
+        case .like(let post):
+            let vc = ProductDetailViewController(model: post)
+            vc.title = post.postType.rawValue
+            navigationController?.pushViewController(vc, animated: true)
+        case .follow(_):
+            fatalError("Dev issue: should never get cold ")
+        }
     }
 }
 

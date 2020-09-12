@@ -17,6 +17,7 @@ class HomeViewController: UIViewController {
     private var sideMenuTableView = SideMenuTableView(with: ["+"])
     private var collectionView: UICollectionView?
     private let menuButtons = MenuButtuns()
+    private var posts = [Post]()
     
     private let menuButton: UIButton = {
         let button = UIButton()
@@ -63,6 +64,39 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         handleNotAuthenticated()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchPosts()
+    }
+    
+    private func fetchPosts() {
+        
+        self.posts = []
+        
+        DatabaseManeger.shared.getPostData { [weak self] result in
+            
+            guard let `self` = self else { return }
+            
+            switch result {
+            case .success(let data):
+                guard let postInfos = data as? [String: Any] else { return }
+                postInfos.forEach { (key, value) in
+                    guard let postInfo = value as? [String: Any] else { return }
+                    let post = Post(dictionary: postInfo)
+                    `self`.posts.append(post)
+                }
+                `self`.posts.sort {$0.uploadedDate > $1.uploadedDate}
+                
+                DispatchQueue.main.async {
+                    `self`.collectionView?.reloadData()
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     private func handleNotAuthenticated() {
@@ -152,7 +186,16 @@ extension HomeViewController: MenuButtunsDelegate {
     }
     
     func didTapInfoButton() {
-        let vc = ProductDetailViewController()
+        let post = UserPost(identifier: "",
+                            postType: .photo,
+                            thumnailImage: URL(string: "https://www.google.com/")!,
+                            postURL: URL(string: "https://www.google.com/")!,
+                            caption: nil,
+                            likeCount: [],
+                            coment: [],
+                            createdDate: Date(),
+                            taggedUsers: [])
+        let vc = ProductDetailViewController(model: post)
         let navVC = UINavigationController(rootViewController: vc)
         navVC.modalPresentationStyle = .fullScreen
         present(navVC, animated: true, completion: nil)
@@ -189,12 +232,13 @@ extension HomeViewController: SideMenuTableViewDelegate {
 // MARK: -UICollectionViewDelegate, UICollectionViewDatasource
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCell.identifier, for: indexPath) as! HomeCell
+        cell.configure(post: posts[indexPath.row])
         return cell
     }
     
@@ -211,7 +255,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = ProductDetailViewController()
+        let post = UserPost(identifier: "",
+                            postType: .photo,
+                            thumnailImage: URL(string: "https://www.google.com/")!,
+                            postURL: URL(string: "https://www.google.com/")!,
+                            caption: nil,
+                            likeCount: [],
+                            coment: [],
+                            createdDate: Date(),
+                            taggedUsers: [])
+        let vc = ProductDetailViewController(model: post)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

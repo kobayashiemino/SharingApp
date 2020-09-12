@@ -11,6 +11,11 @@ import FirebaseAuth
 class AuthManeger {
     static let shared = AuthManeger()
     
+    static func uid() -> String? {
+        guard let uid = Auth.auth().currentUser?.uid else { return nil }
+        return uid
+    }
+    
     // MARK: -public
     
     public func registerNewUser(username: String, email: String, password: String, completion: @escaping (Bool) -> Void) {

@@ -10,8 +10,15 @@ import UIKit
 import SkyFloatingLabelTextField
 import SafariServices
 import ViewAnimator
+import TPKeyboardAvoiding
+import UITextView_Placeholder
 
 class PostViewController: UIViewController {
+    
+    private let scrollView: TPKeyboardAvoidingScrollView = {
+        let scrollView = TPKeyboardAvoidingScrollView()
+        return scrollView
+    }()
 
     private let itemImageView: UIImageView = {
         let imageView = UIImageView()
@@ -69,18 +76,12 @@ class PostViewController: UIViewController {
         return button
     }()
     
-    private let messageTextField: UITextView = {
-        let textField = UITextView()
-//        textField.placeholder = "MESSAGE"
-//        textField.title = "tell the message"
-//        textField.textColor = .lightGray
-//        textField.lineColor = .lightGray
-//        textField.tintColor = .systemIndigo
-//        textField.selectedLineColor = .systemIndigo
-//        textField.selectedTitleColor = .systemIndigo
-        textField.tintColor = .lightGray
-        textField.font = UIFont(name: "Arial", size: 20)
-        return textField
+    private let captionTextView: UITextView = {
+        let textView = UITextView()
+        textView.tintColor = .lightGray
+        textView.placeholder = "type your message"
+        textView.font = UIFont(name: "Arial", size: 14)
+        return textView
     }()
     
     private let submitButton: UIButton = {
@@ -106,6 +107,14 @@ class PostViewController: UIViewController {
         return effectView
     }()
     
+    public static let dataFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .long
+        formatter.locale = .current
+        return formatter
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -115,16 +124,17 @@ class PostViewController: UIViewController {
     }
     
     private func addSubViews() {
-        view.addSubview(itemImageView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(itemImageView)
         itemImageView.addSubview(addImageButton)
-        view.addSubview(rankButton)
-        view.addSubview(titleTextField)
-        view.addSubview(urlTextField)
+        scrollView.addSubview(rankButton)
+        scrollView.addSubview(titleTextField)
+        scrollView.addSubview(urlTextField)
         urlTextField.addSubview(urlButton)
-        view.addSubview(messageTextField)
-        view.addSubview(submitButton)
-        view.addSubview(blurEffectView)
-        view.addSubview(selectRankPopup)
+        scrollView.addSubview(captionTextView)
+        scrollView.addSubview(submitButton)
+        scrollView.addSubview(blurEffectView)
+        scrollView.addSubview(selectRankPopup)
         
         titleTextField.delegate = self
         urlTextField.delegate = self
@@ -136,6 +146,7 @@ class PostViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
+        scrollView.frame = view.bounds
         itemImageView.frame = CGRect(x: 0, y: 0, width: view.width, height: view.width)
         addImageButton.frame = CGRect(x: (itemImageView.width - 100) / 2,
                                       y: (itemImageView.height - 100) / 2,
@@ -159,12 +170,12 @@ class PostViewController: UIViewController {
                                  width: 52,
                                  height: 52)
         urlButton.center.y = urlTextField.height / 2
-        messageTextField.frame = CGRect(x: 10,
+        captionTextView.frame = CGRect(x: 10,
                                         y: urlTextField.bottom + 10,
                                         width: view.width - 20,
                                         height: view.height - 92 - (urlTextField.bottom + 10))
         submitButton.frame =  CGRect(x: 100,
-                                     y: messageTextField.bottom + 20,
+                                     y: captionTextView.bottom + 20,
                                      width: view.width - 200,
                                      height: 52)
         submitButton.layer.cornerRadius = 10
@@ -220,7 +231,63 @@ class PostViewController: UIViewController {
     }
     
     @objc private func didTapSubmitButton() {
-        self.dismiss(animated: true, completion: nil)
+        
+        submitButton.isEnabled = false
+        
+        guard let image = itemImageView.image else { return  }
+        guard let imageData = image.pngData() else { return }
+        let fileName = createFileName()
+        StorageManeger.shared.uploadPostPhoto(with: imageData, fileName: fileName) { [weak self] result in
+            
+            guard let `self` = self else { return }
+            
+            switch result {
+            case .success(let urlString):
+                print(urlString)
+                `self`.saveToDatabase(urlString: urlString)
+            case .failure(let error):
+                print("error:\(error)")
+            }
+        }
+    }
+    
+    private func saveToDatabase(urlString: String) {
+        
+        guard let title = titleTextField.text else { return }
+        guard let itemSiteURL = urlTextField.text else { return }
+        guard let caption = captionTextView.text else { return }
+        let uploadedDate = PostViewController.dataFormatter.string(from: Date())
+        
+        let values = ["title": title,
+                      "itemSiteURL": itemSiteURL,
+                      "imageURL": urlString,
+                      "caption": caption,
+                      "uploadedDate": uploadedDate]
+        
+        DatabaseManeger.shared.postUpdate(values: values) { [weak self] (result) in
+            
+            guard let `self` = self else { return }
+            
+            switch result {
+            case .success(let ref):
+                print(ref)
+                `self`.submitButton.isEnabled = false
+                `self`.dismiss(animated: true, completion: nil)
+                break
+            case .failure(let error):
+                print(error)
+                break
+            }
+        }
+    }
+    
+    private func createFileName() -> String {
+        
+        guard let title = titleTextField.text else { return "" }
+        let dateString = Self.dataFormatter.string(from: Date())
+        let fileName = "\(title)_\(dateString)"
+        
+        return fileName
     }
 }
 
@@ -239,9 +306,7 @@ extension PostViewController: UITextFieldDelegate {
         if textField == titleTextField {
             urlTextField.becomeFirstResponder()
         } else if textField == urlTextField {
-            messageTextField.becomeFirstResponder()
-        } else if textField == messageTextField {
-            
+            captionTextView.becomeFirstResponder()
         }
         return true
     }
