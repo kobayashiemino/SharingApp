@@ -12,6 +12,8 @@ class MyPageCategoryCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MyPageCategoryCollectionViewCell"
     
+    private var post: Post?
+    
     private var categoryButton: UIButton = {
         let button = UIButton()
         button.setTitle("test", for: .normal)
@@ -36,6 +38,9 @@ class MyPageCategoryCollectionViewCell: UICollectionViewCell {
         categoryButton.layer.cornerRadius = categoryButton.width / 3
     }
     
+    public func configure(post: Post) {
+        categoryButton.setTitle(post.category, for: .normal)
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -12,6 +12,8 @@ class MyPageViewController: UIViewController {
     
     private var collectionView: UICollectionView?
     private var posts = [Post]()
+    private var selectedPosts = [Post]()
+    private var selected = false
     
     private let postButton: UIButton = {
         let button = UIButton()
@@ -110,14 +112,22 @@ extension MyPageViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if section == 0 {
             return 0
         } else {
-            return posts.count
+            if selected {
+                return selectedPosts.count
+            } else {
+                return posts.count
+            }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageCollectionViewCell.identifier, for: indexPath) as! MyPageCollectionViewCell
-        cell.configure(post: posts[indexPath.row])
+        if selected {
+            cell.configure(post: selectedPosts[indexPath.row])
+        } else {
+            cell.configure(post: posts[indexPath.row])
+        }
         return cell
     }
     
@@ -142,6 +152,8 @@ extension MyPageViewController: UICollectionViewDelegate, UICollectionViewDataSo
             return profile
         }
         let category = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MyPageCategoryReusableView.identifier, for: indexPath) as! MyPageCategoryReusableView
+        category.reloadData()
+        category.delegate = self
         return category
     }
 }
@@ -154,5 +166,15 @@ extension MyPageViewController: MyPageProfileReusableViewDelegate {
         }
         let vc = ListViewController(data: mockData)
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension MyPageViewController: MyPageCategoryReusableViewDelegate {
+    func didTapCategoryCell(category: String) {
+        selectedPosts = []
+        let selectedpost = posts.filter { $0.category == category }
+        selectedPosts.append(contentsOf: selectedpost)
+        selected = true
+        collectionView?.reloadData()
     }
 }

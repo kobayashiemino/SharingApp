@@ -10,10 +10,11 @@ import UIKit
 import SkyFloatingLabelTextField
 import SafariServices
 import ViewAnimator
+import SDWebImage
 
 class ProductDetailViewController: UIViewController {
     
-    private var model: UserPost?
+    private var post: Post?
     
     private let itemImageView: UIImageView = {
         let imageView = UIImageView()
@@ -66,7 +67,7 @@ class ProductDetailViewController: UIViewController {
         return button
     }()
     
-    private let messageTextLabel: UILabel = {
+    private let captionLabel: UILabel = {
         let label = UILabel()
         label.text = "MESSAGEMESSAGEMESSAGEMESSAGEMESSAGEMESSAGE"
         label.textColor = .white
@@ -94,9 +95,15 @@ class ProductDetailViewController: UIViewController {
         return button
     }()
     
-    init(model: UserPost) {
-        self.model = model
+    init(post: Post) {
+        self.post = post
         super.init(nibName: nil, bundle: nil)
+        
+        guard let imageURL = URL(string: post.imageURL) else { return }
+        itemImageView.sd_setImage(with: imageURL, completed: nil)
+        
+        titleLabel.text = post.title
+        captionLabel.text = post.caption
     }
     
     required init?(coder: NSCoder) {
@@ -118,7 +125,7 @@ class ProductDetailViewController: UIViewController {
         view.addSubview(rankImageView)
         view.addSubview(titleLabel)
         view.addSubview(websiteButton)
-        view.addSubview(messageTextLabel)
+        view.addSubview(captionLabel)
         view.addSubview(SDGsButton)
         view.addSubview(communityButton)
         
@@ -138,12 +145,12 @@ class ProductDetailViewController: UIViewController {
                                      y: itemImageView.bottom + 10,
                                      width: 52, height: 52)
         rankImageView.layer.cornerRadius = rankImageView.width / 2
-        messageTextLabel.frame = CGRect(x: 10,
+        captionLabel.frame = CGRect(x: 10,
                                         y: rankImageView.bottom + 10,
                                         width: view.width - 20,
                                         height: 80)
         websiteButton.frame = CGRect(x: 10,
-                                     y: messageTextLabel.bottom + 10,
+                                     y: captionLabel.bottom + 10,
                                      width: view.width - 20,
                                      height: 52)
         SDGsButton.frame = CGRect(x: 10,

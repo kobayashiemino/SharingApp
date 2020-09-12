@@ -14,6 +14,7 @@ public struct Post {
     let imageURL: String
     let caption: String
     let uploadedDate: String
+    let category: String
     
     init(dictionary: [String: Any]) {
         self.title = dictionary["title"] as? String ?? ""
@@ -21,5 +22,6 @@ public struct Post {
         self.imageURL = dictionary["imageURL"] as? String ?? ""
         self.caption = dictionary["caption"] as? String ?? ""
         self.uploadedDate = dictionary["uploadedDate"] as? String ?? ""
+        self.category = dictionary["category"] as? String ?? ""
     }
 }

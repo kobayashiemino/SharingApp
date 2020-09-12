@@ -186,19 +186,19 @@ extension HomeViewController: MenuButtunsDelegate {
     }
     
     func didTapInfoButton() {
-        let post = UserPost(identifier: "",
-                            postType: .photo,
-                            thumnailImage: URL(string: "https://www.google.com/")!,
-                            postURL: URL(string: "https://www.google.com/")!,
-                            caption: nil,
-                            likeCount: [],
-                            coment: [],
-                            createdDate: Date(),
-                            taggedUsers: [])
-        let vc = ProductDetailViewController(model: post)
-        let navVC = UINavigationController(rootViewController: vc)
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true, completion: nil)
+//        let post = UserPost(identifier: "",
+//                            postType: .photo,
+//                            thumnailImage: URL(string: "https://www.google.com/")!,
+//                            postURL: URL(string: "https://www.google.com/")!,
+//                            caption: nil,
+//                            likeCount: [],
+//                            coment: [],
+//                            createdDate: Date(),
+//                            taggedUsers: [])
+//        let vc = ProductDetailViewController(post: post)
+//        let navVC = UINavigationController(rootViewController: vc)
+//        navVC.modalPresentationStyle = .fullScreen
+//        present(navVC, animated: true, completion: nil)
     }
     
     func didTapMyPageButton() {
@@ -255,16 +255,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let post = UserPost(identifier: "",
-                            postType: .photo,
-                            thumnailImage: URL(string: "https://www.google.com/")!,
-                            postURL: URL(string: "https://www.google.com/")!,
-                            caption: nil,
-                            likeCount: [],
-                            coment: [],
-                            createdDate: Date(),
-                            taggedUsers: [])
-        let vc = ProductDetailViewController(model: post)
+        let post = posts[indexPath.row]
+        let vc = ProductDetailViewController(post: post)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

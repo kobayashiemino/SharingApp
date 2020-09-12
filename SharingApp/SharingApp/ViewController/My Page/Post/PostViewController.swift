@@ -24,7 +24,17 @@ class PostViewController: UIViewController {
         let imageView = UIImageView()
         imageView.backgroundColor = .systemPink
         imageView.isUserInteractionEnabled = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
+    }()
+    
+    private let cancelImageButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("change Picture", for: .normal)
+        button.setTitleColor(.systemGray, for: .normal)
+        button.backgroundColor = .white
+        return button
     }()
     
     private let addImageButton: UIButton = {
@@ -69,6 +79,15 @@ class PostViewController: UIViewController {
         return textField
     }()
     
+    private let categoryButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("select category", for: .normal)
+        button.setTitleColor(.systemGray, for: .normal)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.systemGray.cgColor
+        return button
+    }()
+    
     private let urlButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
@@ -81,7 +100,17 @@ class PostViewController: UIViewController {
         textView.tintColor = .lightGray
         textView.placeholder = "type your message"
         textView.font = UIFont(name: "Arial", size: 14)
+        textView.backgroundColor = .init(white: 0.5, alpha: 0.1)
         return textView
+    }()
+    
+    private let cancelButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("cancel", for: .normal)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        return button
     }()
     
     private let submitButton: UIButton = {
@@ -130,8 +159,10 @@ class PostViewController: UIViewController {
         scrollView.addSubview(rankButton)
         scrollView.addSubview(titleTextField)
         scrollView.addSubview(urlTextField)
+        scrollView.addSubview(categoryButton)
         urlTextField.addSubview(urlButton)
         scrollView.addSubview(captionTextView)
+        scrollView.addSubview(cancelButton)
         scrollView.addSubview(submitButton)
         scrollView.addSubview(blurEffectView)
         scrollView.addSubview(selectRankPopup)
@@ -142,12 +173,22 @@ class PostViewController: UIViewController {
         addImageButton.addTarget(self, action: #selector(didTapAddImageButton), for: .touchUpInside)
         rankButton.addTarget(self, action: #selector(didTapRankButton), for: .touchUpInside)
         urlButton.addTarget(self, action: #selector(didTapUrlButton), for: .touchUpInside)
+        categoryButton.addTarget(self, action: #selector(didTapCategoryButton), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         submitButton.addTarget(self, action: #selector(didTapSubmitButton), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
         scrollView.frame = view.bounds
-        itemImageView.frame = CGRect(x: 0, y: 0, width: view.width, height: view.width)
+        itemImageView.frame = CGRect(x: 0,
+                                     y: 0,
+                                     width: view.width,
+                                     height: view.width - 90)
+        cancelImageButton.frame = CGRect(x: view.width - 160,
+                                         y: itemImageView.height - 67,
+                                         width: 150,
+                                         height: 52)
+        cancelImageButton.layer.cornerRadius = 10
         addImageButton.frame = CGRect(x: (itemImageView.width - 100) / 2,
                                       y: (itemImageView.height - 100) / 2,
                                       width: 100,
@@ -165,18 +206,28 @@ class PostViewController: UIViewController {
                                     y: titleTextField.bottom + 10,
                                     width: view.width - 20,
                                     height: 52)
-        urlButton.frame = CGRect(x: urlTextField.width - 52,
+        urlButton.frame = CGRect(x: view.width - 62,
                                  y: 0,
                                  width: 52,
                                  height: 52)
         urlButton.center.y = urlTextField.height / 2
+        categoryButton.frame = CGRect(x: 10,
+                                      y: urlTextField.bottom + 15,
+                                      width: view.width - 20,
+                                      height: 52)
+        categoryButton.layer.cornerRadius = 10
         captionTextView.frame = CGRect(x: 10,
-                                        y: urlTextField.bottom + 10,
-                                        width: view.width - 20,
-                                        height: view.height - 92 - (urlTextField.bottom + 10))
-        submitButton.frame =  CGRect(x: 100,
-                                     y: captionTextView.bottom + 20,
-                                     width: view.width - 200,
+                                       y: categoryButton.bottom + 15,
+                                       width: view.width - 20,
+                                       height: view.height - 77 - (categoryButton.bottom + 15))
+        cancelButton.frame = CGRect(x: 10,
+                                    y: captionTextView.bottom + 15,
+                                    width: (view.width / 2) - 15,
+                                    height: 52)
+        cancelButton.layer.cornerRadius = 10
+        submitButton.frame =  CGRect(x: (view.width / 2) + 5,
+                                     y: captionTextView.bottom + 15,
+                                     width: (view.width / 2) - 15,
                                      height: 52)
         submitButton.layer.cornerRadius = 10
         blurEffectView.frame = view.bounds
@@ -193,6 +244,22 @@ class PostViewController: UIViewController {
         }))
         alert.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+    
+    @objc private func didTapCategoryButton() {
+        let alert = UIAlertController(title: "category", message: "select Category", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: nil)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (_) in
+            guard let `self` = self else { return }
+            guard let text = alert.textFields?.first?.text else { return }
+            `self`.categoryButton.setTitle(text, for: .normal)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func didTapCancelButton() {
+        dismiss(animated: true, completion: nil)
     }
     
     private func takePhoto() {
@@ -256,13 +323,15 @@ class PostViewController: UIViewController {
         guard let title = titleTextField.text else { return }
         guard let itemSiteURL = urlTextField.text else { return }
         guard let caption = captionTextView.text else { return }
+        guard let category = categoryButton.title(for: .normal) else { return }
         let uploadedDate = PostViewController.dataFormatter.string(from: Date())
         
         let values = ["title": title,
                       "itemSiteURL": itemSiteURL,
                       "imageURL": urlString,
                       "caption": caption,
-                      "uploadedDate": uploadedDate]
+                      "uploadedDate": uploadedDate,
+                      "category": category]
         
         DatabaseManeger.shared.postUpdate(values: values) { [weak self] (result) in
             
@@ -288,6 +357,10 @@ class PostViewController: UIViewController {
         let fileName = "\(title)_\(dateString)"
         
         return fileName
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
 }
 
@@ -324,5 +397,7 @@ extension PostViewController: UIImagePickerControllerDelegate, UINavigationContr
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         itemImageView.image = image
         picker.dismiss(animated: true, completion: nil)
+        
+        itemImageView.addSubview(cancelImageButton)
     }
 }
