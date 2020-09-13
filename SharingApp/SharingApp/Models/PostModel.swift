@@ -15,6 +15,7 @@ public struct Post {
     let caption: String
     let uploadedDate: String
     let category: String
+
     
     init(dictionary: [String: Any]) {
         self.title = dictionary["title"] as? String ?? ""
@@ -24,4 +25,13 @@ public struct Post {
         self.uploadedDate = dictionary["uploadedDate"] as? String ?? ""
         self.category = dictionary["category"] as? String ?? ""
     }
+}
+
+public struct Category {
+    let category: String
+    let newCategory: String
+}
+
+public struct Brand {
+    let brand: String
 }

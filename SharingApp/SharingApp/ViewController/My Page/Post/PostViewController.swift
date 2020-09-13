@@ -88,6 +88,8 @@ class PostViewController: UIViewController {
         return button
     }()
     
+    private var category: String?
+    
     private let urlButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
@@ -247,6 +249,12 @@ class PostViewController: UIViewController {
     }
     
     @objc private func didTapCategoryButton() {
+        let vc = SelectCategoryView()
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
+    }
+    
+    @objc private func didTapNewCategoryButton() {
         let alert = UIAlertController(title: "category", message: "select Category", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (_) in
@@ -323,7 +331,7 @@ class PostViewController: UIViewController {
         guard let title = titleTextField.text else { return }
         guard let itemSiteURL = urlTextField.text else { return }
         guard let caption = captionTextView.text else { return }
-        guard let category = categoryButton.title(for: .normal) else { return }
+        guard let category = self.category else { return }
         let uploadedDate = PostViewController.dataFormatter.string(from: Date())
         
         let values = ["title": title,
@@ -399,5 +407,12 @@ extension PostViewController: UIImagePickerControllerDelegate, UINavigationContr
         picker.dismiss(animated: true, completion: nil)
         
         itemImageView.addSubview(cancelImageButton)
+    }
+}
+
+extension PostViewController: SelectCategoryViewDelegate {
+    func selectCategory(text: String) {
+        categoryButton.setTitle("CATEGORY: \(text)", for: .normal)
+        self.category = text
     }
 }

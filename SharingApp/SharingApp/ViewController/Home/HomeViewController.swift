@@ -21,12 +21,14 @@ class HomeViewController: UIViewController {
     
     private let menuButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .systemGray2
-        button.clipsToBounds = true
+        button.backgroundColor = .white
         button.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(didTapBaseButton), for: .touchUpInside)
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.tintColor = .systemPink
+        button.tintColor = .systemGray
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 1, height: 1)
+        button.layer.shadowOpacity = 0.5
         return button
     }()
     
@@ -34,18 +36,18 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         let layout = UICollectionViewFlowLayout()
-        let width: CGFloat = (view.width - 9)/2
-        layout.itemSize = CGSize(width: width, height: width)
+        let width: CGFloat = (view.width - 30)/2
+        layout.itemSize = CGSize(width: width, height: width + 70)
         layout.minimumInteritemSpacing = 3
-        layout.minimumLineSpacing = 3
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: 3)
+        layout.minimumLineSpacing = 10
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView?.backgroundColor = .white
         collectionView?.register(HomeCell.self,
                                  forCellWithReuseIdentifier: HomeCell.identifier)
-        collectionView?.register(HomeHeader.self,
-                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                 withReuseIdentifier: HomeHeader.identifier)
+//        collectionView?.register(HomeHeader.self,
+//                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+//                                 withReuseIdentifier: HomeHeader.identifier)
         collectionView?.delegate = self
         collectionView?.dataSource = self
         
@@ -242,16 +244,20 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                     withReuseIdentifier: HomeHeader.identifier,
-                                                                     for: indexPath) as! HomeHeader
-        return header
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//
+//        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+//                                                                     withReuseIdentifier: HomeHeader.identifier,
+//                                                                     for: indexPath) as! HomeHeader
+//        return header
+//    }
+//
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.width, height: 10)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.width, height: 70)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: view.width, height: 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

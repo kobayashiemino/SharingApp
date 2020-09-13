@@ -15,7 +15,7 @@ protocol SelectRankPopupDelegate: AnyObject {
 class SelectRankPopup: UIView {
     
     public weak var delegate: SelectRankPopupDelegate?
-
+    
     private let goldButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "rosette"), for: .normal)

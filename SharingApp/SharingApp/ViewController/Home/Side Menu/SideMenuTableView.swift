@@ -23,7 +23,6 @@ class SideMenuTableView: UITableViewController {
         super.init(nibName: nil, bundle: nil)
         tableView.register(SideMenuCell.self, forCellReuseIdentifier: SideMenuCell.identifier)
         tableView.separatorStyle = .none
-        
     }
     
     required init?(coder: NSCoder) {
