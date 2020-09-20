@@ -16,15 +16,15 @@ class HomeCell: UICollectionViewCell {
     private let itemView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 20
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
         return imageView
     }()
     
     private let blurView: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .dark)
         let view = UIVisualEffectView(effect: blur)
-        view.alpha = 0.7
+        view.alpha = 0.5
         return view
     }()
     
@@ -42,8 +42,8 @@ class HomeCell: UICollectionViewCell {
         super.init(frame: frame)
         self.backgroundColor = .white
         addSubview(itemView)
-        itemView.addSubview(blurView)
-        itemView.addSubview(thankButton)
+//        itemView.addSubview(blurView)
+//        itemView.addSubview(thankButton)
     }
     
     override func layoutSubviews() {

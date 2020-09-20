@@ -50,6 +50,7 @@ class MyPageViewController: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.register(MyPageCollectionViewCell.self, forCellWithReuseIdentifier: MyPageCollectionViewCell.identifier)
         collectionView.register(MyPageProfileReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MyPageProfileReusableView.identifier)
+        collectionView.register(MycollectionViewRabHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MycollectionViewRabHeaderView.identifier)
         collectionView.register(MyPageCategoryReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MyPageCategoryReusableView.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -104,12 +105,12 @@ class MyPageViewController: UIViewController {
 extension MyPageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if section == 0 {
+        if section == 0 || section == 1 {
             return 0
         } else {
             if selected {
@@ -139,6 +140,8 @@ extension MyPageViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         if section == 0 {
             return CGSize(width: view.width, height: view.height / 4)
+        } else if section == 1 {
+            return CGSize(width: view.width, height: 50)
         } else {
             return CGSize(width: view.width, height: 80)
         }
@@ -150,6 +153,9 @@ extension MyPageViewController: UICollectionViewDelegate, UICollectionViewDataSo
             let profile = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MyPageProfileReusableView.identifier, for: indexPath) as! MyPageProfileReusableView
             profile.delegate = self
             return profile
+        } else if indexPath.section == 1 {
+            let tag = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MycollectionViewRabHeaderView.identifier, for: indexPath) as! MycollectionViewRabHeaderView
+            return tag
         }
         let category = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MyPageCategoryReusableView.identifier, for: indexPath) as! MyPageCategoryReusableView
         category.reloadData()

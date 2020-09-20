@@ -10,6 +10,7 @@ import UIKit
 import SideMenu
 import ViewAnimator
 import Firebase
+import SDWebImage
 
 class HomeViewController: UIViewController {
     
@@ -35,12 +36,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let layout = UICollectionViewFlowLayout()
-        let width: CGFloat = (view.width - 30)/2
-        layout.itemSize = CGSize(width: width, height: width + 70)
-        layout.minimumInteritemSpacing = 3
-        layout.minimumLineSpacing = 10
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        let layout = PinterestLayout()
+        layout.delegate = self
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView?.backgroundColor = .white
         collectionView?.register(HomeCell.self,
@@ -267,4 +264,19 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 }
 
-
+extension HomeViewController: PinterestLayoutDelegate {
+    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
+        let imageURLString = posts[indexPath.row].imageURL
+        guard let imageURL = URL(string: imageURLString) else { return 0 }
+        
+        do {
+            let data = try Data(contentsOf: imageURL)
+            let image = UIImage(data: data)
+            let imageHeight = max((image?.size.height ?? 0)/2, 150)
+            return imageHeight
+        } catch {
+            print("error")
+        }
+        return 0
+    }
+}

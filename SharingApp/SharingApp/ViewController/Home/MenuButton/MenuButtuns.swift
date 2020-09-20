@@ -61,7 +61,7 @@ extension MenuButtuns: UICollectionViewDelegate, UICollectionViewDelegateFlowLay
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuButtunCell.identifier, for: indexPath) as! MenuButtunCell
         let image = buttonImages[indexPath.row]
-        cell.menuImage.image = UIImage(systemName: image)
+        cell.menuButton.setImage(UIImage(systemName: image), for: .normal)
         return cell
     }
     

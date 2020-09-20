@@ -17,12 +17,13 @@ class MyPageCategoryCollectionViewCell: UICollectionViewCell {
     private var categoryButton: UIButton = {
         let button = UIButton()
         button.setTitle("test", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.systemGray, for: .normal)
         button.backgroundColor = .systemGray
         button.clipsToBounds = true
         button.isEnabled = false
         button.contentEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         button.sizeToFit()
+        button.backgroundColor = .white
         return button
     }()
     
