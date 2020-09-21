@@ -11,6 +11,7 @@ import SideMenu
 import ViewAnimator
 import Firebase
 import SDWebImage
+import CCZoomTransition
 
 class HomeViewController: UIViewController {
     
@@ -260,7 +261,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let post = posts[indexPath.row]
         let vc = ProductDetailViewController(post: post)
-        navigationController?.pushViewController(vc, animated: true)
+        
+        if let homeCell = collectionView.cellForItem(at: indexPath) as? HomeCell {
+            vc.cc_setZoomTransition(originalView: homeCell.itemView)
+//            navigationController?.pushViewController(vc, animated: true)
+            self.present(vc, animated: true, completion: nil)
+        }
     }
 }
 

@@ -177,8 +177,9 @@ class ProductDetailViewController: UIViewController {
     }
     
     @objc private func didTapBackTopreviousViewButton() {
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.popViewController(animated: true)
+//        navigationController?.navigationBar.isHidden = false
+//        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     override var prefersStatusBarHidden: Bool {

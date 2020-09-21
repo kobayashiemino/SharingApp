@@ -13,7 +13,7 @@ class HomeCell: UICollectionViewCell {
     
     static let identifier = "SideMenuTableViewCell"
     
-    private let itemView: UIImageView = {
+    public let itemView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill

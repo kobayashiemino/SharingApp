@@ -12,15 +12,26 @@ import SafariServices
 import ViewAnimator
 import TPKeyboardAvoiding
 import UITextView_Placeholder
+import ImagePicker
+import AVFoundation
+import DKImagePickerController
 
 class PostViewController: UIViewController {
+    
+    private var images = [UIImage]()
     
     private let scrollView: TPKeyboardAvoidingScrollView = {
         let scrollView = TPKeyboardAvoidingScrollView()
         return scrollView
     }()
-
-    private let itemImageView: UIImageView = {
+    
+    private let itemImageScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+//        scrollView.isHidden = true
+        return scrollView
+    }()
+    
+    private let photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .systemPink
         imageView.isUserInteractionEnabled = true
@@ -28,6 +39,23 @@ class PostViewController: UIViewController {
         imageView.clipsToBounds = true
         return imageView
     }()
+    
+    private let pageControl: UIPageControl = {
+        let pagecontrol = UIPageControl()
+        pagecontrol.isHidden = true
+        pagecontrol.currentPageIndicatorTintColor = .systemPink
+        pagecontrol.pageIndicatorTintColor = .systemGray
+        return pagecontrol
+    }()
+    
+//    private let itemImageView: UIImageView = {
+//        let imageView = UIImageView()
+//        imageView.backgroundColor = .systemPink
+//        imageView.isUserInteractionEnabled = true
+//        imageView.contentMode = .scaleAspectFill
+//        imageView.clipsToBounds = true
+//        return imageView
+//    }()
     
     private let cancelImageButton: UIButton = {
         let button = UIButton()
@@ -156,8 +184,11 @@ class PostViewController: UIViewController {
     
     private func addSubViews() {
         view.addSubview(scrollView)
-        scrollView.addSubview(itemImageView)
-        itemImageView.addSubview(addImageButton)
+        scrollView.addSubview(itemImageScrollView)
+        scrollView.addSubview(pageControl)
+        itemImageScrollView.addSubview(photoImageView)
+//        scrollView.addSubview(itemImageView)
+        itemImageScrollView.addSubview(addImageButton)
         scrollView.addSubview(rankButton)
         scrollView.addSubview(titleTextField)
         scrollView.addSubview(urlTextField)
@@ -169,6 +200,8 @@ class PostViewController: UIViewController {
         scrollView.addSubview(blurEffectView)
         scrollView.addSubview(selectRankPopup)
         
+        itemImageScrollView.delegate = self
+        
         titleTextField.delegate = self
         urlTextField.delegate = self
         
@@ -178,30 +211,41 @@ class PostViewController: UIViewController {
         categoryButton.addTarget(self, action: #selector(didTapCategoryButton), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         submitButton.addTarget(self, action: #selector(didTapSubmitButton), for: .touchUpInside)
+        
+        pageControl.addTarget(self, action: #selector(pageControlDidChange(_:)), for: .valueChanged)
     }
     
     override func viewDidLayoutSubviews() {
         scrollView.frame = view.bounds
-        itemImageView.frame = CGRect(x: 0,
+        itemImageScrollView.frame = CGRect(x: 0,
+                                           y: 0,
+                                           width: view.width,
+                                           height: view.width - 90)
+        photoImageView.frame = itemImageScrollView.bounds
+        pageControl.frame = CGRect(x: (view.width - view.width / 3) / 2,
+                                   y: itemImageScrollView.bottom,
+                                   width: view.width / 3,
+                                   height: 20)
+        itemImageScrollView.frame = CGRect(x: 0,
                                      y: 0,
                                      width: view.width,
                                      height: view.width - 90)
         cancelImageButton.frame = CGRect(x: view.width - 160,
-                                         y: itemImageView.height - 67,
+                                         y: itemImageScrollView.height - 67,
                                          width: 150,
                                          height: 52)
         cancelImageButton.layer.cornerRadius = 10
-        addImageButton.frame = CGRect(x: (itemImageView.width - 100) / 2,
-                                      y: (itemImageView.height - 100) / 2,
+        addImageButton.frame = CGRect(x: (itemImageScrollView.width - 100) / 2,
+                                      y: (itemImageScrollView.height - 100) / 2,
                                       width: 100,
                                       height: 100)
         addImageButton.layer.cornerRadius = addImageButton.width / 2
         titleTextField.frame = CGRect(x: 10,
-                                      y: itemImageView.bottom + 10,
+                                      y: itemImageScrollView.bottom + 10,
                                       width: view.width - 90,
                                       height: 52)
         rankButton.frame = CGRect(x: titleTextField.right + 20,
-                                  y: itemImageView.bottom + 10,
+                                  y: itemImageScrollView.bottom + 10,
                                   width: 52, height: 52)
         rankButton.layer.cornerRadius = rankButton.width / 2
         urlTextField.frame = CGRect(x: 10,
@@ -273,17 +317,87 @@ class PostViewController: UIViewController {
     private func takePhoto() {
         let vc = UIImagePickerController()
         vc.sourceType = .camera
+        vc.mediaTypes = ["public.image", "public.movie"]
         vc.delegate = self
         vc.allowsEditing = true
         present(vc, animated: true, completion: nil)
     }
     
     private func selectFromAlbum() {
-        let vc = UIImagePickerController()
-        vc.sourceType = .photoLibrary
-        vc.delegate = self
-        vc.allowsEditing = true
-        present(vc, animated: true, completion: nil)
+        
+        let pickerController = DKImagePickerController()
+        pickerController.allowMultipleTypes = true
+        pickerController.didCancel = {
+            pickerController.dismiss(animated: true, completion: nil)
+        }
+        pickerController.didSelectAssets = { [weak self] (assets: [DKAsset]) in
+            
+            guard let `self` = self else { return }
+            
+            `self`.images = []
+            
+            for asset in assets {
+                
+                if asset.type == .photo {
+                    asset.fetchFullScreenImage { (image, _) in
+                        guard let image = image else { return }
+                        `self`.images.append(image)
+                        `self`.showSelectedImage()
+                    }
+                } else if asset.type == .video {
+                    asset.fetchAVAsset { (video, _) in
+                        guard let video = video as? AVURLAsset else { return }
+                        let image = AVAssetImageGenerator(asset: AVURLAsset(url: video.url))
+                        let thumbnail = try! image.copyCGImage(at: .zero,
+                                                               actualTime: nil)
+                        let thumbnailUIimage = UIImage(cgImage: thumbnail,
+                                                       scale: 0,
+                                                       orientation: .up)
+                        `self`.images.append(thumbnailUIimage)
+                        `self`.showSelectedImage()
+                    }
+                }
+            }
+        }
+        self.present(pickerController, animated: true, completion: nil)
+        //        let vc = UIImagePickerController()
+//        vc.sourceType = .photoLibrary
+//        vc.mediaTypes = ["public.image", "public.movie"]
+//        vc.delegate = self
+//        vc.allowsEditing = true
+//        present(vc, animated: true, completion: nil)
+        
+//        ImagePicker
+//        let imagePickerController = ImagePickerController()
+//        imagePickerController.delegate = self
+//        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    private func showSelectedImage() {
+        pageControl.isHidden = false
+        pageControl.numberOfPages = images.count
+        
+        itemImageScrollView.contentSize = CGSize(width: view.width * CGFloat(images.count),
+                                                 height: itemImageScrollView.height)
+        itemImageScrollView.isPagingEnabled = true
+        
+        for x in 0..<images.count {
+            let eachView = UIImageView()
+            eachView.frame = CGRect(x: CGFloat(x) * view.width,
+                                                y: 0,
+                                                width: view.width,
+                                                height: itemImageScrollView.height)
+            eachView.image = images[x]
+            eachView.contentMode = .scaleAspectFill
+            eachView.clipsToBounds = true
+            itemImageScrollView.addSubview(eachView)
+        }
+    }
+    
+    @objc private func pageControlDidChange(_ sender: UIPageControl) {
+        let currentPage = sender.currentPage
+        scrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.width, y: 0),
+                                    animated: true)
     }
     
     @objc internal func didTapRankButton() {
@@ -309,7 +423,7 @@ class PostViewController: UIViewController {
         
         submitButton.isEnabled = false
         
-        guard let image = itemImageView.image else { return  }
+        guard let image = photoImageView.image else { return  }
         guard let imageData = image.pngData() else { return }
         let fileName = createFileName()
         StorageManeger.shared.uploadPostPhoto(with: imageData, fileName: fileName) { [weak self] result in
@@ -402,11 +516,36 @@ extension PostViewController: UIImagePickerControllerDelegate, UINavigationContr
         
         addImageButton.removeFromSuperview()
         
-        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        itemImageView.image = image
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            photoImageView.image = image
+        } else if let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
+            let video = AVURLAsset(url: url)
+            let videoImage = AVAssetImageGenerator(asset: video)
+            let thumbnail = try! videoImage.copyCGImage(at: .zero, actualTime: nil)
+            photoImageView.image = UIImage(cgImage: thumbnail,
+                                          scale: 0,
+                                          orientation: .right)
+        }
+        
         picker.dismiss(animated: true, completion: nil)
         
-        itemImageView.addSubview(cancelImageButton)
+        photoImageView.addSubview(cancelImageButton)
+    }
+}
+
+extension PostViewController: ImagePickerDelegate {
+    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        self.images = images
+    }
+    
+    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        self.images = images
+        
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+        imagePicker.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -414,5 +553,11 @@ extension PostViewController: SelectCategoryViewDelegate {
     func selectCategory(text: String) {
         categoryButton.setTitle("CATEGORY: \(text)", for: .normal)
         self.category = text
+    }
+}
+
+extension PostViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        pageControl.currentPage = Int(floorf(Float(scrollView.contentOffset.x / scrollView.width)))
     }
 }

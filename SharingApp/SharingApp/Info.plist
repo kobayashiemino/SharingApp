@@ -24,6 +24,8 @@
 	<string>Please allows to access to Camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Please allows  to access  to Album</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Please allows to access to Microphone</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
