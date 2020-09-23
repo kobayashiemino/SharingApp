@@ -8,15 +8,21 @@
 
 import UIKit
 import SDWebImage
+import ChameleonFramework
 
 protocol MyPageProfileReusableViewDelegate: AnyObject {
     func didTapFollowButton()
+}
+
+protocol MyPageProfileReusableViewColorDelegate: AnyObject {
+    func setColor(color: UIColor)
 }
 
 class MyPageProfileReusableView: UICollectionReusableView {
     static let identifier = "MypageProfileReusableView"
     
     public weak var delegate: MyPageProfileReusableViewDelegate?
+    public weak var colorDelegate: MyPageProfileReusableViewColorDelegate?
     
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
@@ -30,7 +36,6 @@ class MyPageProfileReusableView: UICollectionReusableView {
         button.setTitleColor(.white, for: .normal)
         button.setTitle("Follow", for: .normal)
         button.layer.cornerRadius = 5
-        button.backgroundColor = .systemPink
         return button
     }()
     
@@ -69,8 +74,13 @@ class MyPageProfileReusableView: UICollectionReusableView {
                     let profilePictureURL = URL(string: profilePictureURLString)
                     
                     DispatchQueue.main.async {
-                        `self`.iconImageView.sd_setImage(with: profilePictureURL,
-                                                         completed: nil)
+                        `self`.iconImageView.sd_setImage(with: profilePictureURL) { (image, error, _, _) in
+                            guard let image = image, error == nil else { return }
+                            let averageColorFromImage = UIColor(averageColorFrom: image)
+                            let averageColor = AverageColor(color: averageColorFromImage)
+                            `self`.followButton.backgroundColor = averageColor.averageColor
+                            `self`.colorDelegate?.setColor(color: averageColor.averageColor)
+                        }
                     }
                 }
                 

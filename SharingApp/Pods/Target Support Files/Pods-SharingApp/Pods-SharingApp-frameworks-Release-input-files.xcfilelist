@@ -1,5 +1,6 @@
 ${PODS_ROOT}/Target Support Files/Pods-SharingApp/Pods-SharingApp-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/CCZoomTransition/CCZoomTransition.framework
+${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework
 ${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework
 ${BUILT_PRODUCTS_DIR}/DKCamera/DKCamera.framework
 ${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework

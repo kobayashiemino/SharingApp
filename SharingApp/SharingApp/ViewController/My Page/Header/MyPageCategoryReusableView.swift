@@ -21,16 +21,17 @@ class MyPageCategoryReusableView: UICollectionReusableView {
     
     weak var delegate: MyPageCategoryReusableViewDelegate?
     
+    private let myPageProfileReusableView = MyPageProfileReusableView()
+    
     private let segmentControl: PinterestSegment = {
         var segmentControl =  PinterestSegment()
         var style = PinterestSegmentStyle()
-        style.indicatorColor = .systemPink
+        style.indicatorColor = .white
         style.titleMargin = 15
         style.titlePendingVertical = 14
         style.titlePendingHorizontal = 14
         style.titleFont = UIFont.systemFont(ofSize: 14)
         style.normalTitleColor = .white
-        style.selectedTitleColor = .white
         segmentControl = PinterestSegment(frame: .zero,
                                           segmentStyle: style,
                                           titles: [])
@@ -44,7 +45,7 @@ class MyPageCategoryReusableView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .lightGray
+        myPageProfileReusableView.colorDelegate = self
 
         addSubview(segmentControl)
         fetchPosts()
@@ -97,4 +98,11 @@ class MyPageCategoryReusableView: UICollectionReusableView {
 //    public func reloadData() {
 //        fetchPosts()
 //    }
+}
+
+extension MyPageCategoryReusableView: MyPageProfileReusableViewColorDelegate {
+    func setColor(color: UIColor) {
+        backgroundColor = color
+        segmentControl.selectedTitleColor = color
+    }
 }

@@ -40,6 +40,14 @@ public struct Profile {
     }
 }
 
+public struct AverageColor {
+    let averageColor: UIColor
+    
+    init(color: UIColor) {
+        self.averageColor = color
+    }
+}
+
 public struct Category {
     let category: String
     let newCategory: String

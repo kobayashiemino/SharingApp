@@ -11,19 +11,20 @@ import UIKit
 class MycollectionViewTagHeaderView: UICollectionReusableView {
     static let identifier = "MycollectionViewRabHeaderView"
     
+    private let myPageProfileReusableView = MyPageProfileReusableView()
+    
+    private var colorFromImage: UIColor?
+    
     private let postButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "paperplane.fill"), for: .normal)
         button.tintColor = .white
-        button.backgroundColor = .lightGray
         return button
     }()
     
     private let saveButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-        button.tintColor = .lightGray
-        button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.borderWidth = 1
         button.backgroundColor = .white
         return button
@@ -35,6 +36,8 @@ class MycollectionViewTagHeaderView: UICollectionReusableView {
         backgroundColor = .systemGray
         addSubview(postButton)
         addSubview(saveButton)
+        
+        myPageProfileReusableView.colorDelegate = self
         
         postButton.addTarget(self, action: #selector(didTapPostButton), for: .touchUpInside)
         saveButton.addTarget(self, action: #selector(didTapSaveButton), for: .touchUpInside)
@@ -53,19 +56,28 @@ class MycollectionViewTagHeaderView: UICollectionReusableView {
     
     @objc private func didTapPostButton() {
         saveButton.backgroundColor = .white
-        saveButton.tintColor = .lightGray
-        saveButton.layer.borderColor = UIColor.lightGray.cgColor
+        saveButton.tintColor = colorFromImage
+        saveButton.layer.borderColor = colorFromImage?.cgColor
         saveButton.layer.borderWidth = 1
-        postButton.backgroundColor = .lightGray
+        postButton.backgroundColor = colorFromImage
         postButton.tintColor = .white
     }
     
     @objc private func didTapSaveButton() {
         postButton.backgroundColor = .white
-        postButton.tintColor = .lightGray
-        postButton.layer.borderColor = UIColor.lightGray.cgColor
+        postButton.tintColor = colorFromImage
+        postButton.layer.borderColor = colorFromImage?.cgColor
         postButton.layer.borderWidth = 1
-        saveButton.backgroundColor = .lightGray
+        saveButton.backgroundColor = colorFromImage
         saveButton.tintColor = .white
+    }
+}
+
+extension MycollectionViewTagHeaderView: MyPageProfileReusableViewColorDelegate {
+    func setColor(color: UIColor) {
+        colorFromImage = color
+        postButton.backgroundColor = color
+        saveButton.tintColor = color
+        saveButton.layer.borderColor = color.cgColor
     }
 }
