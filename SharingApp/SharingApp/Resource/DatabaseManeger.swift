@@ -84,4 +84,16 @@ class DatabaseManeger {
             completion(.success(value))
         })
     }
+    
+    public func getProfileData(email: String, completion: @escaping getDataCompletion) {
+        
+        database.child("users/\(email.safeDatabaseKey())").observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value else {
+                completion(.failure(DatabaseManegerError.getDataFailed))
+                return
+            }
+            
+            completion(.success(value))
+        }
+    }
 }

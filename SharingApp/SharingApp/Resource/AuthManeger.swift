@@ -16,6 +16,11 @@ class AuthManeger {
         return uid
     }
     
+    static func email() -> String? {
+        guard let email = Auth.auth().currentUser?.email else { return nil}
+        return email
+    }
+    
     private var profilePictureURL: String = ""
     
     // MARK: -public

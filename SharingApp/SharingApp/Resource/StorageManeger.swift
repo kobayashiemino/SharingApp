@@ -21,7 +21,7 @@ class StorageManeger {
     }
     
     public func uploadProfilePicture(with data: Data, fileName: String, completion: @escaping uploadPictureCompletion) {
-        storage.child("images/\(fileName)").putData(data, metadata: nil) { [weak self] (metadata, error) in
+        storage.child("profile_icon_images/\(fileName)").putData(data, metadata: nil) { [weak self] (metadata, error) in
             guard let `self` = self else { return }
             
             guard error == nil else {
@@ -29,7 +29,7 @@ class StorageManeger {
                 return
             }
             
-            `self`.storage.child("images/\(fileName)").downloadURL { (url, error) in
+            `self`.storage.child("profile_icon_images/\(fileName)").downloadURL { (url, error) in
                 guard let url = url else {
                     completion(.failure(StorageManegerError.failedToGetDownloadUrl))
                     return

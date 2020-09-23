@@ -26,6 +26,20 @@ public struct Post {
     }
 }
 
+public struct Profile {
+    let username: String
+    let email: String
+    let password: String
+    let profilePicture: String
+    
+    init(dictionary: [String: Any]) {
+        self.username = dictionary["username"] as? String ?? ""
+        self.email = dictionary["email"] as? String ?? ""
+        self.password = dictionary["password"] as? String ?? ""
+        self.profilePicture = dictionary["profilePicture"] as? String ?? ""
+    }
+}
+
 public struct Category {
     let category: String
     let newCategory: String

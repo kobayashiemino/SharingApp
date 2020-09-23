@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 protocol MyPageProfileReusableViewDelegate: AnyObject {
     func didTapFollowButton()
@@ -16,6 +17,13 @@ class MyPageProfileReusableView: UICollectionReusableView {
     static let identifier = "MypageProfileReusableView"
     
     public weak var delegate: MyPageProfileReusableViewDelegate?
+    
+    private let iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        return imageView
+    }()
     
     private let followButton: UIButton = {
         let button = UIButton()
@@ -29,12 +37,47 @@ class MyPageProfileReusableView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        addSubview(iconImageView)
         addSubview(followButton)
+        
         followButton.addTarget(self, action: #selector(didTapFollowButton), for: .touchUpInside)
+        
+        fetchIconImage()
     }
     
     override func layoutSubviews() {
+        iconImageView.frame = CGRect(x: 30, y: 0, width: 100, height: 100)
+        iconImageView.center.y = height / 2
+        iconImageView.layer.cornerRadius = iconImageView.width / 2
+        
         followButton.frame = CGRect(x: width - 70, y: 30, width: 80, height: 52)
+    }
+    
+    private func fetchIconImage() {
+        guard let email = AuthManeger.email() else { return }
+        DatabaseManeger.shared.getProfileData(email: email) { [weak self] (result) in
+            
+            guard let `self` = self else { return }
+            
+            switch result {
+            case .success(let profileInfos):
+                guard let profileInfos = profileInfos as? [String: Any] else { return }
+                profileInfos.forEach { key, value in
+                    guard let profileInfo = value as? [String: Any] else { return }
+                    let profile = Profile(dictionary: profileInfo)
+                    let profilePictureURLString = profile.profilePicture
+                    let profilePictureURL = URL(string: profilePictureURLString)
+                    
+                    DispatchQueue.main.async {
+                        `self`.iconImageView.sd_setImage(with: profilePictureURL,
+                                                         completed: nil)
+                    }
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     @objc private func didTapFollowButton() {
