@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TKSubmitTransition
 
 class LoginViewController: UIViewController {
     
@@ -32,6 +33,7 @@ class LoginViewController: UIViewController {
     
     private let passwordTextField: UITextField = {
         let textField = UITextField()
+        textField.isSecureTextEntry = true
         textField.backgroundColor = .secondarySystemBackground
         textField.placeholder = "password"
         textField.autocorrectionType = .no
@@ -46,13 +48,14 @@ class LoginViewController: UIViewController {
         return textField
     }()
     
-    private var loginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Log in", for: .normal)
+    private var loginButton: TKTransitionSubmitButton = {
+        let button = TKTransitionSubmitButton()
+        button.setTitle("Log in", for: UIControl.State())
         button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .systemPink
         button.layer.masksToBounds = true
         button.layer.cornerRadius = Constants.cornerRadius
-        button.backgroundColor = .systemBlue
+        button.spinnerColor = .white
         button.addTarget(self,
                          action: #selector(didTapLoginButton),
                          for: .touchUpInside)
@@ -66,9 +69,6 @@ class LoginViewController: UIViewController {
          button.layer.masksToBounds = true
          button.layer.cornerRadius = Constants.cornerRadius
          button.backgroundColor = .systemBlue
-         button.addTarget(self,
-                          action: #selector(didTapLoginButton),
-                          for: .touchUpInside)
          return button
      }()
 
@@ -76,6 +76,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        navigationController?.isNavigationBarHidden = true
 
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
@@ -98,25 +99,27 @@ class LoginViewController: UIViewController {
                                       height: 52)
         passwordTextField.frame = CGRect(x: 10,
                                          y: emailTextField.bottom + 10,
-                                      width: view.width - 20,
-                                      height: 52)
+                                         width: view.width - 20,
+                                         height: 52)
         createAccountButton.frame = CGRect(x: 10,
-                                           y: passwordTextField.bottom + 10,
-                                      width: view.width - 20,
-                                      height: 52)
+                                           y: view.height - 62,
+                                           width: view.width - 20,
+                                           height: 52)
         loginButton.frame = CGRect(x: 10,
-                                   y: createAccountButton.bottom + 10,
-                                      width: view.width - 20,
-                                      height: 52)
+                                   y: passwordTextField.bottom + 10,
+                                   width: view.width - 20,
+                                   height: 52)
     }
     
     @objc private func didTapCreateAccountButton() {
         let vc = RegisterViewController()
         vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func didTapLoginButton() {
+        
+        loginButton.startLoadingAnimation()
         
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
@@ -138,19 +141,19 @@ class LoginViewController: UIViewController {
             
             guard let `self` = self else { return }
             
-//            DispatchQueue.main.sync {
-                
-                if success {
-                    `self`.dismiss(animated: true, completion: nil)
-                } else {
-                    let alert = UIAlertController(title: "Log in Error",
-                                                  message: "We are not able to log you in",
-                                                  preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss",
+            //            DispatchQueue.main.sync {
+            
+            if success {
+                `self`.dismiss(animated: true, completion: nil)
+            } else {
+                let alert = UIAlertController(title: "Log in Error",
+                                              message: "We are not able to log you in",
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss",
                                                   style: .cancel, handler: nil))
                     `self`.present(alert, animated: true, completion: nil)
-                }
-//            }
+            }
+            //            }
         }
     }
 }

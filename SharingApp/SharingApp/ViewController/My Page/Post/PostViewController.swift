@@ -168,8 +168,10 @@ class PostViewController: UIViewController {
     
     public static let dataFormatter: DateFormatter = {
         let formatter = DateFormatter()
+        // medium: 2017/08/13
         formatter.dateStyle = .medium
-        formatter.timeStyle = .long
+        // medium: 16:36:46
+        formatter.timeStyle = .medium
         formatter.locale = .current
         return formatter
     }()
@@ -432,7 +434,6 @@ class PostViewController: UIViewController {
             
             switch result {
             case .success(let urlString):
-                print(urlString)
                 `self`.saveToDatabase(urlString: urlString)
             case .failure(let error):
                 print("error:\(error)")

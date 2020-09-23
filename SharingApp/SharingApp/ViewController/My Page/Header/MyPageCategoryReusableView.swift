@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PinterestSegment
 
 protocol MyPageCategoryReusableViewDelegate: AnyObject {
     func didTapCategoryCell(category: String)
@@ -16,26 +17,36 @@ class MyPageCategoryReusableView: UICollectionReusableView {
     
     static let identifier = "MyPageCategoryReusableView"
     
-    private var collectionView: UICollectionView?
-    
     private var categories = [Post]()
     
     weak var delegate: MyPageCategoryReusableViewDelegate?
     
+    private let segmentControl: PinterestSegment = {
+        var segmentControl =  PinterestSegment()
+        var style = PinterestSegmentStyle()
+        style.indicatorColor = .systemPink
+        style.titleMargin = 15
+        style.titlePendingVertical = 14
+        style.titlePendingHorizontal = 14
+        style.titleFont = UIFont.systemFont(ofSize: 14)
+        style.normalTitleColor = .white
+        style.selectedTitleColor = .white
+        segmentControl = PinterestSegment(frame: .zero,
+                                          segmentStyle: style,
+                                          titles: [])
+        return segmentControl
+    }()
+    
+    private var segmentTitles = [PinterestSegment.TitleElement]()
+    private var posts = [Post]()
+    private var sortedPosts = [Post]()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 30)
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 30
-        collectionView = UICollectionView(frame: bounds, collectionViewLayout: layout)
-        guard let collectionView = collectionView else { return }
-        collectionView.backgroundColor = .white
-        collectionView.register(MyPageCategoryCollectionViewCell.self, forCellWithReuseIdentifier: MyPageCategoryCollectionViewCell.identifier)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        addSubview(collectionView)
         
+        backgroundColor = .lightGray
+
+        addSubview(segmentControl)
         fetchPosts()
     }
     
@@ -45,12 +56,12 @@ class MyPageCategoryReusableView: UICollectionReusableView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        collectionView?.backgroundColor = .systemGray
-        collectionView?.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        
+        segmentControl.frame = bounds
     }
     
     private func fetchPosts() {
-        self.categories = []
+        self.segmentTitles = []
         DatabaseManeger.shared.getPostData { [weak self] (result) in
             
             guard let `self` = self else { return }
@@ -59,40 +70,31 @@ class MyPageCategoryReusableView: UICollectionReusableView {
             case .success(let data):
                 guard let postInfos = data as? [String: Any] else { return }
                 postInfos.forEach { (key, value) in
-                    guard let postInfo = value as? [String: Any] else { return }
-                    let post = Post(dictionary: postInfo)
-                    `self`.categories.append(post)
+                    guard let dictionary = value as? [String: Any] else { return }
+                    let post = Post(dictionary: dictionary)
+                    `self`.posts.append(post)
                 }
-                `self`.categories.sort {$0.uploadedDate > $1.uploadedDate}
+                
+                `self`.sortedPosts = `self`.posts.sorted {$0.uploadedDate > $1.uploadedDate}
+                for sortedPost in `self`.sortedPosts {
+                    `self`.segmentTitles.append(PinterestSegment.TitleElement(title: sortedPost.category))
+                }
                 
                 DispatchQueue.main.async {
-                    `self`.collectionView?.reloadData()
+                    `self`.segmentControl.setRichTextTitles(`self`.segmentTitles)
+                    `self`.segmentControl.valueChange = { index in
+                        let selectedIndex = `self`.sortedPosts[index]
+                        let selectedCategory = selectedIndex.category
+                        `self`.delegate?.didTapCategoryCell(category: selectedCategory)
+                    }
                 }
             case .failure(let error):
                 print(error)
             }
         }
     }
-    
-    public func reloadData() {
-        fetchPosts()
-    }
-}
-
-extension MyPageCategoryReusableView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageCategoryCollectionViewCell.identifier, for: indexPath) as! MyPageCategoryCollectionViewCell
-        cell.configure(post: categories[indexPath.row])
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedCategory = categories[indexPath.row]
-        let categoryName = selectedCategory.category
-        delegate?.didTapCategoryCell(category: categoryName)
-    }
+//    
+//    public func reloadData() {
+//        fetchPosts()
+//    }
 }

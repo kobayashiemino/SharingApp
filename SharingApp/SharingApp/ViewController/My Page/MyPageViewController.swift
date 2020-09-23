@@ -50,7 +50,7 @@ class MyPageViewController: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.register(MyPageCollectionViewCell.self, forCellWithReuseIdentifier: MyPageCollectionViewCell.identifier)
         collectionView.register(MyPageProfileReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MyPageProfileReusableView.identifier)
-        collectionView.register(MycollectionViewRabHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MycollectionViewRabHeaderView.identifier)
+        collectionView.register(MycollectionViewTagHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MycollectionViewTagHeaderView.identifier)
         collectionView.register(MyPageCategoryReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MyPageCategoryReusableView.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -154,11 +154,11 @@ extension MyPageViewController: UICollectionViewDelegate, UICollectionViewDataSo
             profile.delegate = self
             return profile
         } else if indexPath.section == 1 {
-            let tag = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MycollectionViewRabHeaderView.identifier, for: indexPath) as! MycollectionViewRabHeaderView
+            let tag = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MycollectionViewTagHeaderView.identifier, for: indexPath) as! MycollectionViewTagHeaderView
             return tag
         }
         let category = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MyPageCategoryReusableView.identifier, for: indexPath) as! MyPageCategoryReusableView
-        category.reloadData()
+//        category.reloadData()
         category.delegate = self
         return category
     }

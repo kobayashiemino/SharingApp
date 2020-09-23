@@ -15,7 +15,6 @@ public struct Post {
     let caption: String
     let uploadedDate: String
     let category: String
-
     
     init(dictionary: [String: Any]) {
         self.title = dictionary["title"] as? String ?? ""

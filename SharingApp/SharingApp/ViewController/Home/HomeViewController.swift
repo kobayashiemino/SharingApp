@@ -81,6 +81,7 @@ class HomeViewController: UIViewController {
             
             switch result {
             case .success(let data):
+                print("datadata:\(data)")
                 guard let postInfos = data as? [String: Any] else { return }
                 postInfos.forEach { (key, value) in
                     guard let postInfo = value as? [String: Any] else { return }
@@ -153,7 +154,9 @@ class HomeViewController: UIViewController {
                 
                 if success {
                     let vc = LoginViewController()
-                    `self`.present(vc, animated: true, completion: nil)
+                    let navController =  UINavigationController(rootViewController: vc)
+                    navController.modalPresentationStyle = .fullScreen
+                    `self`.present(navController, animated: true, completion: nil)
                 } else {
                     
                 }
