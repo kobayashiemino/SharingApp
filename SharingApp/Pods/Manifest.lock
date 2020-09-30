@@ -149,6 +149,7 @@ PODS:
   - nanopb/encode (1.30906.0)
   - PinterestSegment (1.2.3)
   - PromisesObjC (1.2.10)
+  - ReadMoreTextView (3.0.1)
   - SDWebImage (5.9.1):
     - SDWebImage/Core (= 5.9.1)
   - SDWebImage/Core (5.9.1)
@@ -172,6 +173,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - ImagePicker
   - PinterestSegment
+  - ReadMoreTextView
   - SDWebImage
   - SideMenu
   - SkyFloatingLabelTextField (~> 3.0)
@@ -205,6 +207,7 @@ SPEC REPOS:
     - nanopb
     - PinterestSegment
     - PromisesObjC
+    - ReadMoreTextView
     - SDWebImage
     - SideMenu
     - SkyFloatingLabelTextField
@@ -253,6 +256,7 @@ SPEC CHECKSUMS:
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PinterestSegment: 3dd673ffd9feb00dc7816bb1e503d70459e8eaa8
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
+  ReadMoreTextView: 19147adf93abce6d7271e14031a00303fe28720d
   SDWebImage: a990c053fff71e388a10f3357edb0be17929c9c5
   SideMenu: 8ef57a3cfc024a2d3fc1c036c7fe98537baec9e0
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
@@ -262,6 +266,6 @@ SPEC CHECKSUMS:
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
   ViewAnimator: dd18d2f5c1e472f78d0065ff92750fe56cbd2f39
 
-PODFILE CHECKSUM: 3eb94515762f6e6c96550ef6375424716eb0f558
+PODFILE CHECKSUM: 8b142a2f506f7cad7c01b0b7bc781fa016c419c9
 
 COCOAPODS: 1.9.3

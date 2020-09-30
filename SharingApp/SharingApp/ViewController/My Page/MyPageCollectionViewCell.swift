@@ -19,11 +19,25 @@ class MyPageCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    private let productLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .lightGray
+        label.numberOfLines = 1
+        return label
+    }()
+    
+    private let brandLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .lightGray
+        label.numberOfLines = 1
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .systemPink
-        
         addSubview(photoImageView)
+        addSubview(productLabel)
+        addSubview(brandLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -32,11 +46,16 @@ class MyPageCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        photoImageView.frame = bounds
+        photoImageView.frame = CGRect(x: 0, y: 0, width: width, height: width)
+        productLabel.frame = CGRect(x: 0, y: photoImageView.bottom + 5, width: width, height: 20)
+        brandLabel.frame = CGRect(x: 0, y: productLabel.bottom + 5, width: width, height: 20)
     }
     
     public func configure(post: Post) {
         let imageURL = URL(string: post.imageURL)
         photoImageView.sd_setImage(with: imageURL, completed: nil)
+        
+        productLabel.text = post.title
+        brandLabel.text = post.title
     }
 }

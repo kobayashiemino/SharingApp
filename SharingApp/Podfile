@@ -18,6 +18,7 @@ pod 'DKImagePickerController'
 pod 'PinterestSegment'
 pod 'TKSubmitTransition', :git => 'https://github.com/entotsu/TKSubmitTransition.git'
 pod 'ChameleonFramework/Swift', :git => 'https://github.com/wowansm/Chameleon.git', :branch => 'swift5'
+pod 'ReadMoreTextView'
 
 pod 'Firebase/Core'
 pod 'Firebase/Auth'

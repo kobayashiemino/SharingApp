@@ -38,21 +38,44 @@ class HomeCell: UICollectionViewCell {
         return button
     }()
     
+    private let productNameLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 1
+        label.textColor = .lightGray
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private let brandNameLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 1
+        label.textColor = .lightGray
+        label.textAlignment = .center
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
         addSubview(itemView)
+        
+        addSubview(brandNameLabel)
+        addSubview(productNameLabel)
 //        itemView.addSubview(blurView)
 //        itemView.addSubview(thankButton)
     }
     
     override func layoutSubviews() {
-        itemView.frame = bounds
-        blurView.frame = CGRect(x: 0, y: width, width: width, height: height - width)
+        itemView.frame = CGRect(x: 0, y: 0, width: width, height: height - 80)
         
-        let width: CGFloat = 30
-        thankButton.frame = CGRect(x: -3, y: -3, width: width, height: width)
-        thankButton.layer.cornerRadius = thankButton.width / 2
+        brandNameLabel.frame = CGRect(x: 0, y: itemView.bottom + 10, width: width, height: 20)
+        productNameLabel.frame = CGRect(x: 0, y: brandNameLabel.bottom + 10, width: width, height: 20)
+        
+//        blurView.frame = CGRect(x: 0, y: width, width: width, height: height - width)
+        
+//        let width: CGFloat = 30
+//        thankButton.frame = CGRect(x: -3, y: -3, width: width, height: width)
+//        thankButton.layer.cornerRadius = thankButton.width / 2
     }
     
     required init?(coder: NSCoder) {
@@ -62,5 +85,8 @@ class HomeCell: UICollectionViewCell {
     public func configure(post: Post) {
         let imageUrl = URL(string: post.imageURL)
         itemView.sd_setImage(with: imageUrl, completed: nil)
+        
+        brandNameLabel.text = post.title
+        productNameLabel.text = post.title
     }
 }

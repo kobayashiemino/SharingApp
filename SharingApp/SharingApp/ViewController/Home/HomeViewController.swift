@@ -20,6 +20,8 @@ class HomeViewController: UIViewController {
     private var collectionView: UICollectionView?
     private let menuButtons = MenuButtuns()
     private var posts = [Post]()
+    private var selectedPosts = [Post]()
+    private var selected = false
     
     private let menuButton: UIButton = {
         let button = UIButton()
@@ -34,12 +36,16 @@ class HomeViewController: UIViewController {
         return button
     }()
     
+    private var categoryView: CategoryView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
+        
         let layout = PinterestLayout()
         layout.delegate = self
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView?.backgroundColor = .white
         collectionView?.register(HomeCell.self,
                                  forCellWithReuseIdentifier: HomeCell.identifier)
@@ -49,6 +55,7 @@ class HomeViewController: UIViewController {
         collectionView?.delegate = self
         collectionView?.dataSource = self
         
+        
         if let collectionView = collectionView {
             view.addSubview(collectionView)
         }
@@ -56,6 +63,9 @@ class HomeViewController: UIViewController {
         setupNavBarItem()
         setupSideMenu()
         
+        categoryView = CategoryView()
+        view.addSubview(categoryView!)
+        categoryView?.delegate = self
         view.addSubview(menuButton)
         view.addSubview(menuButtons)
         menuButtons.delegate = self
@@ -110,6 +120,11 @@ class HomeViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        categoryView?.frame = CGRect(x: 10,
+                                    y: (navigationController?.navigationBar.bottom ?? 0) + 10,
+                                    width: view.width - 20 ,
+                                    height: 130 -  ((navigationController?.navigationBar.height ?? 0) + 20))
+        collectionView?.frame = CGRect(x: 0, y: 130, width: view.width, height: view.height - 130)
         menuButtons.frame = CGRect(x: view.width - 70, y: view.height - 450, width: 60, height: 360)
         menuButton.frame = CGRect(x: view.width - 70, y: view.height - 70, width: 60, height: 60)
         menuButton.layer.cornerRadius = menuButton.width / 2
@@ -234,14 +249,36 @@ extension HomeViewController: SideMenuTableViewDelegate {
 
 // MARK: -UICollectionViewDelegate, UICollectionViewDatasource
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+//    func numberOfSections(in collectionView: UICollectionView) -> Int {
+//        return 1
+//    }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+//        return CGSize(width: view.width, height: 100)
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+//        return CGSize(width: view.width, height: 10)
+//    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if selected {
+            return selectedPosts.count
+        }
         return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCell.identifier, for: indexPath) as! HomeCell
-        cell.configure(post: posts[indexPath.row])
+        
+        if selected {
+            cell.configure(post: selectedPosts[indexPath.row])
+        } else {
+            cell.configure(post: posts[indexPath.row])
+        }
         return cell
     }
     
@@ -250,16 +287,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 //        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
 //                                                                     withReuseIdentifier: HomeHeader.identifier,
 //                                                                     for: indexPath) as! HomeHeader
+//        header.delegate = self
 //        return header
 //    }
-//
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.width, height: 10)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: view.width, height: 10)
-    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let post = posts[indexPath.row]
@@ -281,11 +311,33 @@ extension HomeViewController: PinterestLayoutDelegate {
         do {
             let data = try Data(contentsOf: imageURL)
             let image = UIImage(data: data)
-            let imageHeight = max((image?.size.height ?? 0)/2, 150)
+            let imageHeight = max((image?.size.height ?? 0)/2, 200)
             return imageHeight
         } catch {
             print("error")
         }
         return 0
+    }
+}
+
+//extension HomeViewController: HomeHeaderDelegate {
+//    func didTapCategoryCell(category: String) {
+//        selectedPosts = []
+//        let selectedCategory = posts.filter{$0.category == category}
+//        print("selectedCategory\(selectedCategory)")
+//        selectedPosts.append(contentsOf: selectedCategory)
+//        selected = true
+//        DispatchQueue.main.async {
+//            self.collectionView?.reloadData()
+//        }
+//    }
+//}
+
+extension HomeViewController: CategoryViewDelegate {
+    func didTapCategoryButton(category: String) {
+        selectedPosts = []
+        selectedPosts.append(contentsOf: posts.filter { $0.category == category })
+        selected = true
+        self.collectionView?.reloadData()
     }
 }

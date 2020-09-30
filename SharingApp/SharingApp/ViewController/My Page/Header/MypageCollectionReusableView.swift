@@ -9,9 +9,11 @@
 import UIKit
 import SDWebImage
 import ChameleonFramework
+import ReadMoreTextView
 
 protocol MyPageProfileReusableViewDelegate: AnyObject {
     func didTapFollowButton()
+    func didTapSuggestButton()
 }
 
 protocol MyPageProfileReusableViewColorDelegate: AnyObject {
@@ -39,13 +41,37 @@ class MyPageProfileReusableView: UICollectionReusableView {
         return button
     }()
     
+    private let profileTextView: ReadMoreTextView = {
+        let textView = ReadMoreTextView()
+        textView.shouldTrim = true
+        textView.text = "test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test "
+        textView.maximumNumberOfLines = 3
+        textView.attributedReadMoreText = NSAttributedString(string: "... Read more")
+        textView.attributedReadLessText = NSAttributedString(string: "Read less")
+        textView.textContainer.heightTracksTextView = true
+        return textView
+    }()
+    
+    private let suggestButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "tray"), for: .normal)
+        button.tintColor = .lightGray
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.cornerRadius = 5
+        return button
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         addSubview(iconImageView)
         addSubview(followButton)
+        addSubview(profileTextView)
+        addSubview(suggestButton)
         
         followButton.addTarget(self, action: #selector(didTapFollowButton), for: .touchUpInside)
+        suggestButton.addTarget(self, action: #selector(didTapSuggestButton), for: .touchUpInside)
         
         fetchIconImage()
     }
@@ -55,7 +81,24 @@ class MyPageProfileReusableView: UICollectionReusableView {
         iconImageView.center.y = height / 2
         iconImageView.layer.cornerRadius = iconImageView.width / 2
         
-        followButton.frame = CGRect(x: width - 70, y: 30, width: 80, height: 52)
+        profileTextView.frame = CGRect(x: iconImageView.right + 10,
+                                       y: iconImageView.top,
+                                       width: width - 170,
+                                       height: 50)
+        
+        followButton.frame = CGRect(x: iconImageView.right + 10,
+                                    y: profileTextView.bottom + 5,
+                                    width: width - 170 - 60,
+                                    height: 50)
+        
+        suggestButton.frame = CGRect(x: followButton.right + 5,
+                                     y: profileTextView.bottom + 5,
+                                     width: 50,
+                                     height: 50)
+    }
+    
+    @objc private func didTapSuggestButton() {
+        delegate?.didTapSuggestButton()
     }
     
     private func fetchIconImage() {

@@ -40,8 +40,8 @@ class MyPageViewController: UIViewController {
     
     private func createCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        let size: CGFloat = (view.width - 4) / 3
-        layout.itemSize = CGSize(width: size, height: size)
+        let size: CGFloat = (view.width - 3) / 2
+        layout.itemSize = CGSize(width: size, height: size + 60)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
@@ -165,6 +165,11 @@ extension MyPageViewController: UICollectionViewDelegate, UICollectionViewDataSo
 }
 
 extension MyPageViewController: MyPageProfileReusableViewDelegate {
+    func didTapSuggestButton() {
+        let vc = SuggestViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func didTapFollowButton() {
         var mockData = [UserRelationship]()
         for x in 0..<10 {

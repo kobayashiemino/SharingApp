@@ -133,7 +133,7 @@ class ProductDetailViewController: UIViewController {
         itemImageView.addSubview(backTopreviousViewButton)
         itemImageView.addSubview(blurView)
         itemImageView.addSubview(SDGsLabel)
-        view.addSubview(rankImageView)
+//        view.addSubview(rankImageView)
         view.addSubview(titleLabel)
         view.addSubview(websiteButton)
         view.addSubview(captionLabel)
@@ -154,31 +154,31 @@ class ProductDetailViewController: UIViewController {
                                   y: itemImageView.bottom + 10,
                                   width: view.width - 90,
                                   height: 52)
-        rankImageView.frame = CGRect(x: titleLabel.right + 20,
-                                     y: itemImageView.bottom + 10,
-                                     width: 52, height: 52)
-        rankImageView.layer.cornerRadius = rankImageView.width / 2
+        //        rankImageView.frame = CGRect(x: titleLabel.right + 20,
+        //                                     y: itemImageView.bottom + 10,
+        //                                     width: 52, height: 52)
+        //        rankImageView.layer.cornerRadius = rankImageView.width / 2
         captionLabel.frame = CGRect(x: 10,
-                                        y: rankImageView.bottom + 10,
-                                        width: view.width - 20,
-                                        height: 80)
+                                    y: titleLabel.bottom + 10,
+                                    width: view.width - 20,
+                                    height: 80)
         websiteButton.frame = CGRect(x: 10,
                                      y: captionLabel.bottom + 10,
                                      width: view.width - 20,
                                      height: 52)
         SDGsButton.frame = CGRect(x: 10,
-                                 y: websiteButton.bottom + 10,
-                                 width: (view.width / 2) - 15,
-                                 height: 52)
+                                  y: websiteButton.bottom + 10,
+                                  width: (view.width / 2) - 15,
+                                  height: 52)
         communityButton.frame = CGRect(x: SDGsButton.right + 10,
-                                      y: websiteButton.bottom + 10,
-                                      width: (view.width / 2) - 15,
-                                      height: 52)
+                                       y: websiteButton.bottom + 10,
+                                       width: (view.width / 2) - 15,
+                                       height: 52)
     }
     
     @objc private func didTapBackTopreviousViewButton() {
-//        navigationController?.navigationBar.isHidden = false
-//        navigationController?.popViewController(animated: true)
+        //        navigationController?.navigationBar.isHidden = false
+        //        navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
     
