@@ -14,6 +14,7 @@ class StorageManeger {
     private let storage = Storage.storage().reference()
     
     public typealias uploadPictureCompletion = (Result<String, Error>) -> Void
+    public typealias uploadPicturesCompletion = (Result<Any, Error>) -> Void
     
     enum StorageManegerError: Error {
         case failedToUpload
@@ -56,6 +57,37 @@ class StorageManeger {
                 let urlString = url.absoluteString
                 completion(.success(urlString))
             })
+        }
+    }
+    
+    public func uploadPhotos(with datas: [Data], fileName: String, completion: @escaping uploadPicturesCompletion) {
+        
+        var successDatas = [String]()
+        var dataCount = 0
+        for data in datas {
+            
+            dataCount += 1
+            storage.child("post_imeges/\(fileName)/\(dataCount)").putData(data, metadata: nil) { [weak self] (data, error) in
+                guard let `self` = self else { return }
+                
+                guard error == nil else {
+                    completion(.failure(StorageManegerError.failedToUpload))
+                    return
+                }
+                
+                `self`.storage.child("post_imeges/\(fileName)/\(dataCount)").downloadURL(completion: { (url, error) in
+                    guard let url = url else {
+                        completion(.failure(StorageManegerError.failedToGetDownloadUrl))
+                        return
+                    }
+                    let urlString = url.absoluteString
+                    successDatas.append(urlString)
+                    DispatchQueue.main.async {
+                        print("successDatassuccessDatas:\(successDatas)")
+                        completion(.success(successDatas))
+                    }
+                })
+            }
         }
     }
     

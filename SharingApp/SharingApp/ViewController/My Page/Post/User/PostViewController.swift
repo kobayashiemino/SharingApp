@@ -425,23 +425,41 @@ class PostViewController: UIViewController {
         
         submitButton.isEnabled = false
         
-        guard let image = photoImageView.image else { return  }
-        guard let imageData = image.pngData() else { return }
         let fileName = createFileName()
-        StorageManeger.shared.uploadPostPhoto(with: imageData, fileName: fileName) { [weak self] result in
-            
-            guard let `self` = self else { return }
-            
-            switch result {
-            case .success(let urlString):
-                `self`.saveToDatabase(urlString: urlString)
-            case .failure(let error):
-                print("error:\(error)")
+        var uploadDatas = [Data]()
+        
+        if let image = photoImageView.image {
+            guard let imageData = image.pngData() else { return }
+            StorageManeger.shared.uploadPostPhoto(with: imageData, fileName: fileName) { [weak self] result in
+                
+                guard let `self` = self else { return }
+                
+                switch result {
+                case .success(let urlString):
+                    `self`.saveToDatabase(urlString: urlString, urlStrings: nil)
+                case .failure(let error):
+                    print("error:\(error)")
+                }
+            }
+        } else {
+            for image in images {
+                guard let imageData = image.pngData() else { return }
+                uploadDatas.append(imageData)
+            }
+            StorageManeger.shared.uploadPhotos(with: uploadDatas, fileName: fileName) { result in
+                switch result {
+                case .success(let datas):
+                    print("datasdatas:\(datas)")
+                    guard let datas = datas as? [String] else { return }
+                    `self`.saveToDatabase(urlString: nil, urlStrings: datas)
+                case .failure(let error):
+                    print("failed to fetch datas \(error)")
+                }
             }
         }
     }
     
-    private func saveToDatabase(urlString: String) {
+    private func saveToDatabase(urlString: String?, urlStrings: [String]?) {
         
         guard let title = titleTextField.text else { return }
         guard let itemSiteURL = urlTextField.text else { return }
@@ -449,20 +467,28 @@ class PostViewController: UIViewController {
         guard let category = self.category else { return }
         let uploadedDate = PostViewController.dataFormatter.string(from: Date())
         
+        var uploadDates = [String]()
+        if let urlString = urlString {
+            uploadDates.append(urlString)
+        } else if let urlStrings = urlStrings {
+            uploadDates.append(contentsOf: urlStrings)
+            print("uploadDatesuploadDates2:\(uploadDates)")
+            print("urlStringsurlStrings:\(urlStrings)")
+        }
+        
         let values = ["title": title,
                       "itemSiteURL": itemSiteURL,
-                      "imageURL": urlString,
+                      "imageURL": uploadDates,
                       "caption": caption,
                       "uploadedDate": uploadedDate,
-                      "category": category]
+                      "category": category] as [String : Any]
         
         DatabaseManeger.shared.postUpdate(values: values) { [weak self] (result) in
             
             guard let `self` = self else { return }
             
             switch result {
-            case .success(let ref):
-                print(ref)
+            case .success(_):
                 `self`.submitButton.isEnabled = false
                 `self`.dismiss(animated: true, completion: nil)
                 break
