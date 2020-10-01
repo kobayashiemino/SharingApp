@@ -46,9 +46,9 @@ class SelectCategoryViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         categoryLabel.frame = CGRect(x: 10,
-                                 y: 0,
-                                 width: contentView.width - 50,
-                                 height: contentView.height)
+                                     y: 0,
+                                     width: contentView.width - 50,
+                                     height: contentView.height)
         removeButton.frame = CGRect(x: contentView.width - 50,
                                     y: 0, width: 50,
                                     height: contentView.height)

@@ -18,23 +18,19 @@ class CategoryView: UIView {
     private var posts = [Post]()
     private var sortedPosts = [Post]()
     private var selectedPosts = [Post]()
-    private var titles = [PinterestSegment.TitleElement]()
+    private var postCategories = [String]()
+    private var segmentTitles = [PinterestSegment.TitleElement]()
     public weak var delegate: CategoryViewDelegate?
-    
-    private let categoryView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
     
     private let segmentControl: PinterestSegment = {
         var style = PinterestSegmentStyle()
         style.indicatorColor = .lightGray
         style.titlePendingHorizontal = 15
         style.titlePendingVertical = 15
-        style.titleMargin = 14
+        style.titleMargin = 15
         style.normalTitleColor = .lightGray
         style.selectedTitleColor = .white
+        style.titleFont = UIFont.systemFont(ofSize: 14)
         let segmentControl = PinterestSegment(frame: .zero,
                                               segmentStyle: style,
                                               titles: [])
@@ -43,7 +39,6 @@ class CategoryView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(categoryView)
         addSubview(segmentControl)
         
         fetchPost()
@@ -51,9 +46,7 @@ class CategoryView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        categoryView.frame = bounds
-        segmentControl.frame = CGRect(x: 0, y: 20, width: width, height: height - 40)
+        segmentControl.frame = bounds
     }
     
     private func fetchPost() {
@@ -69,16 +62,20 @@ class CategoryView: UIView {
                     let post = Post(dictionary: postDate)
                     `self`.posts.append(post)
                 }
-                `self`.sortedPosts = `self`.posts.sorted {$0.uploadedDate > $1.uploadedDate}
+                
+                `self`.sortedPosts.append(contentsOf: `self`.posts.sorted {$0.uploadedDate > $1.uploadedDate})
+                
+                `self`.postCategories.append("All")
+                `self`.segmentTitles.append(PinterestSegment.TitleElement(title: "All"))
                 for sortedPost in `self`.sortedPosts {
-                    `self`.titles.append(PinterestSegment.TitleElement(title: sortedPost.category))
+                    `self`.postCategories.append(sortedPost.category)
+                    `self`.segmentTitles.append(PinterestSegment.TitleElement(title: sortedPost.category))
                 }
                 DispatchQueue.main.async {
-                    `self`.segmentControl.setRichTextTitles(`self`.titles)
+                    `self`.segmentControl.setRichTextTitles(`self`.segmentTitles)
                     `self`.segmentControl.valueChange = { index in
-                        let category = `self`.sortedPosts[index]
-                        let categoryString = category.category
-                        `self`.delegate?.didTapCategoryButton(category: categoryString)
+                        let category = `self`.postCategories[index]
+                        `self`.delegate?.didTapCategoryButton(category: category)
                     }
                 }
             case .failure(let error):

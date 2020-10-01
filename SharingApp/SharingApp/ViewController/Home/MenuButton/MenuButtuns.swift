@@ -22,7 +22,10 @@ class MenuButtuns: UIView {
     
     public var delegate: MenuButtunsDelegate?
     
-    private let buttonImages: [String] = ["house.fill", "bag.fill","person.fill", "bell.fill"]
+    private let buttonImages: [String] = ["house.fill",
+                                          "bag.fill",
+                                          "person.fill",
+                                          "bell.fill"]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,8 +34,8 @@ class MenuButtuns: UIView {
         layout.itemSize = CGSize(width: 60, height: 60)
         layout.minimumLineSpacing = 15
         layout.scrollDirection = .vertical
-    
-        collectionView = UICollectionView(frame: bounds, collectionViewLayout: layout)
+        layout.sectionInset = UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         guard let collectionView = collectionView else { return }
         collectionView.register(MenuButtunCell.self, forCellWithReuseIdentifier: MenuButtunCell.identifier)

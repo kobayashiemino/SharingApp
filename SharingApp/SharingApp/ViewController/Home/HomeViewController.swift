@@ -125,8 +125,8 @@ class HomeViewController: UIViewController {
                                     width: view.width - 20 ,
                                     height: 130 -  ((navigationController?.navigationBar.height ?? 0) + 20))
         collectionView?.frame = CGRect(x: 0, y: 130, width: view.width, height: view.height - 130)
-        menuButtons.frame = CGRect(x: view.width - 70, y: view.height - 450, width: 60, height: 360)
-        menuButton.frame = CGRect(x: view.width - 70, y: view.height - 70, width: 60, height: 60)
+        menuButtons.frame = CGRect(x: view.width - 90, y: view.height - 388, width: 80, height: 308)
+        menuButton.frame = CGRect(x: view.width - 80, y: view.height - 80, width: 60, height: 60)
         menuButton.layer.cornerRadius = menuButton.width / 2
     }
     
@@ -336,8 +336,8 @@ extension HomeViewController: PinterestLayoutDelegate {
 extension HomeViewController: CategoryViewDelegate {
     func didTapCategoryButton(category: String) {
         selectedPosts = []
-        selectedPosts.append(contentsOf: posts.filter { $0.category == category })
         selected = true
+        selectedPosts.append ( contentsOf: category == "All" ? posts : posts.filter { $0.category == category } )
         self.collectionView?.reloadData()
     }
 }

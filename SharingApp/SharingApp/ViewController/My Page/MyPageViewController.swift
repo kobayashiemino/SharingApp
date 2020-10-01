@@ -95,10 +95,18 @@ class MyPageViewController: UIViewController {
     }
     
     @objc private func didTapPostButton() {
-        let vc = PostViewController()
-        let navVC = UINavigationController(rootViewController: vc)
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true, completion: nil)
+        
+        if let email = AuthManeger.email(), email.contains("company") {
+            let vc = ArticleViewController()
+            let navVC = UINavigationController(rootViewController: vc)
+            navVC.modalPresentationStyle = .fullScreen
+            present(navVC, animated: true, completion: nil)
+        } else {
+            let vc = PostViewController()
+            let navVC = UINavigationController(rootViewController: vc)
+            navVC.modalPresentationStyle = .fullScreen
+            present(navVC, animated: true, completion: nil)
+        }
     }
 }
 

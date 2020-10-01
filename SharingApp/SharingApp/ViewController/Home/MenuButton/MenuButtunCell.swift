@@ -26,7 +26,7 @@ class MenuButtunCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(menuButton)
+        addSubview(menuButton)
     }
     
     required init?(coder: NSCoder) {
