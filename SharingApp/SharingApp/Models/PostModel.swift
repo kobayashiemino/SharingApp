@@ -19,7 +19,15 @@ public struct Post {
     init(dictionary: [String: Any]) {
         self.title = dictionary["title"] as? String ?? ""
         self.itemSiteURL = dictionary["itemSiteURL"] as? String ?? ""
-        self.imageURL = dictionary["imageURL"] as? String ?? ""
+        
+        var imageURL: String?
+        if let imageURL1 = dictionary["imageURL"] as? [String] {
+            let image = imageURL1[0]
+            imageURL = image
+        } else if let imageURL2 = dictionary["imageURL"] as? String {
+            imageURL = imageURL2
+        }
+        self.imageURL = imageURL ?? ""
         self.caption = dictionary["caption"] as? String ?? ""
         self.uploadedDate = dictionary["uploadedDate"] as? String ?? ""
         self.category = dictionary["category"] as? String ?? ""
